@@ -1,0 +1,68 @@
+==================================================================
+https://keybase.io/0rnot
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of https://0rnot.com
+  * I am 0rnot (https://keybase.io/0rnot) on keybase.
+  * I have a public key with fingerprint FA70 7E97 72E5 737E 2C07  B156 1FF2 EE58 16C7 5F35
+
+To do so, I am signing this object:
+
+{
+  "body": {
+    "key": {
+      "eldest_kid": "0101e1a8c970b1063a1b07c13c34ba6e258cee3d3e1c1c16a4b7570df9ce857ceb8c0a",
+      "fingerprint": "fa707e9772e5737e2c07b1561ff2ee5816c75f35",
+      "host": "keybase.io",
+      "key_id": "1ff2ee5816c75f35",
+      "kid": "0101e1a8c970b1063a1b07c13c34ba6e258cee3d3e1c1c16a4b7570df9ce857ceb8c0a",
+      "uid": "3bfd7ba8ecbcc1585ca7801d3a290519",
+      "username": "0rnot"
+    },
+    "service": {
+      "hostname": "0rnot.com",
+      "protocol": "https:"
+    },
+    "type": "web_service_binding",
+    "version": 1
+  },
+  "ctime": 1775863594,
+  "expire_in": 157680000,
+  "prev": "0cf90cf045704aa3401d1434c528bcaea1cdd528e296060d7b4fea6ebdb67a76",
+  "seqno": 7,
+  "tag": "signature"
+}
+
+which yields the signature:
+
+-----BEGIN PGP MESSAGE-----
+Version: Keybase OpenPGP v2.1.17
+Comment: https://keybase.io/crypto
+
+yMIfAnicrVJbSBVBGD5maplK2EORPdgilWE2c/Yyu8cuSFKahSFWKNVhdnZW18vu
+cc/q8YJZkdpLUFiEKRhEkVGSBFn0UMbpwulJUDNDiiLpHr6UoXGalYIeemyGYWb+
++b7v/7+fCSfHehJjLq2tvQTbuiZing6drvMYzzvWN3OqpTVyvmauis5vtFqjQcdf
+ZWicjwMQQAqxTBQEVAgkHkMVIAJ5wgsqlqhXlAmlvMZTSNiUsKAiEQFNVwiVRUSo
+KhOAuSxON8xyagdsw3SYrI4RQFRByEtFxCPqJQCpUJSgrnspFWUoESTqvMiIFVbQ
+ZbDiVByk2YbFYuziny/vH/j/XHfdvByv6hpSsUyJSggUZZFgJAOo8dirABEqLjBI
+bRPXUDe5bVoO15LFsVC9QajbVdfG38/ZxKphrIBtORaxqlm4wnECQZ9LcxoDLi5E
+Vf9vBb9qmBrrIGPUUztoWCbngwxJHMOVhAiJssSLipDF0YaAYVO/4SJEJMmADTcP
+rXdTE11hCwjMq4AxLzAPUOAFInpllWCKIdE0dqZeRQISYJ4FnbJ2qZoqIYwkzvVU
+a1qcD7EycTmTDBrlJnbqbMq1PLh/YKEnJtETH7fA/VmexMVL//y30ZsJ0dbwruLC
+ewvuvxr4XPStID9U6sv8nrruxI6SY10pldyy6JbWwWf+s+/XjAw0KXGzK+eUpCFw
+suLMTELq2HQ0snPTDXoq79HmNBT9VFuS27l3sDJzqCfcfzx99vLMjwvWsN09diQ6
+PlC1Z2T7+qkvfef4gfT0N2UFX5uFn+HDb62jqckvtxZcqd75JJIgH5rMy2k/X7xD
+KF2yampUn5zuKMy53WLSDbvD8nBo+0jDndHR3rKS1YsWzVQkpTV1bpxoj82fe3Xt
+bhPsixffFfVkvFhePz6b8vD1rQwNjl2M7UVt0tS97v59B5+F8s8J14GW89GM7F++
+bcWHq49fCyWRy7mDvwCB50Ld
+=8YeH
+-----END PGP MESSAGE-----
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/0rnot
+
+==================================================================
