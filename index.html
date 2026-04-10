@@ -1,43 +1,24 @@
 <!DOCTYPE html>
 
-<!--
-  To change the theme, change the class on the html tag below to one of:
-  - theme-auto: Automatically switches based on user's system preferences
-  - theme-light: Forces light theme
-  - theme-dark: Forces dark theme
--->
-
-<html class="theme-auto" lang="ja" translate="no"> <!-- Update`class="theme-auto" with your preference -->
-
-  <head>
+<html class="theme-auto" lang="ja" translate="no"> <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Page Title - Change this to your name/brand (50-60 characters recommended) -->
     <title>0rnot</title>
-    <link rel="icon" type="image/x-icon" href="/images/avatar.png"> <!-- Update this with your own favicon -->
+    <link rel="icon" type="image/x-icon" href="/images/avatar.png"> <meta name="description" content="High Tech,Low Life">
 
-    <!-- Meta Description - Write a description (150-160 characters recommended) -->
-    <meta name="description" content="High Tech,Low Life">
-
-    <!-- Keywords -->
     <meta name="keywords" content="0rnot, profile, links">
     
-    <!-- ↓ここに追加（Google翻訳を絶対にさせない呪文）↓ -->
     <meta name="google" content="notranslate">
 
-    <!-- Canonical URL - Helps prevent duplicate content issues -->
     <meta rel="canonical" href="https://0rnot.com">
 
-    <!-- Author Information -->
     <meta name="author" content="0rnot">
 
-    <!-- Stylesheets -->
     <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/brands.css">
 
-<!-- ↓ここから追加（絶対赤くする＆枠線消す＆アイコン白くするマン）↓ -->
 <style>
       /* --- グローバル設定 --- */
       html {
@@ -97,38 +78,28 @@
         transition: all 0.2s ease !important;
       }
 
-      /* --- 枠線消し（GitHub, X, Obsidian, PayPay） --- */
-      .button-github, .button-x, .button-obsidian, .button-paypay {
+      /* --- 枠線消し（特定ボタン） --- */
+      .button-github, .button-x, .button-obsidian, .button-keybase, .button-btc {
         border: none !important;
       }
-  
-      /* --- PayPayボタン設定（赤） --- */
-      .button-paypay {
-        background-color: #FF0032 !important;
+
+      /* --- Keybase & BTC ボタン設定 --- */
+      .button-keybase {
+        background-color: #33A0FF !important; /* Keybaseのブルー */
+        color: #FFFFFF !important;
+      }
+      .button-btc {
+        background-color: #F7931A !important; /* Bitcoinのオレンジ */
         color: #FFFFFF !important;
       }
 
-      /* ↓ これが抜けてました！アイコンを強制的に真っ白にする魔法 ↓ */
-      .button-paypay img {
-        filter: brightness(0) invert(1) !important;
-      }
-
-      /* --- サイバー風ホバー（反転＆ネオン）エフェクト --- */
+      /* --- サイバー風ホバー（ネオンエフェクト） --- */
       .button:hover {
         transform: translateY(-3px) scale(1.02); /* 少し浮いて大きくなる */
-        box-shadow: 0 0 20px rgba(255, 255, 255, 0.6) !important; /* ★ここを追加：全ボタン共通で白く発光！★ */
+        box-shadow: 0 0 20px rgba(255, 255, 255, 0.6) !important; /* 全ボタン共通で白く発光！ */
       }
       
-      /* PayPayのホバー（赤ネオン維持） */
-      .button-paypay:hover {
-        background-color: #FF0032 !important;
-        color: #FFFFFF !important;
-      }
-      .button-paypay:hover img {
-        filter: brightness(0) invert(1) !important;
-      }
-
-      /* GitHub/X/Obsidianのホバー（白黒反転＆強めの白ネオン） */
+      /* GitHub/X/Obsidianのホバー（白黒反転） */
       :root.theme-dark .button-github:hover,
       :root.theme-dark .button-x:hover,
       :root.theme-dark .button-obsidian:hover {
@@ -142,76 +113,46 @@
         filter: invert(1) !important;
       }
     </style>
-    <!-- ↑ここまで追加↑ -->
-
-  </head>
+    </head>
 
 <body>
 
     <div class="container">
         <div class="column">
 
-            <!--
-              By default, the Avatar is rounded. Use the following:
-              - avatar--rounded: Automatically rounds the image
-              - avatar--soft: Slightly rounds the image
-              - avatar--none: Removes any rounding
+            <img class="avatar avatar--rounded" src="images/avatar.png" alt="0rnot">
 
-              Be sure to replace the src with your own image path and update the alt text
-            -->
-            <img class="avatar avatar--rounded" src="images/avatar.png" srcset="images/avatar@2x.png 2x" alt="0rnot">
-
-            <!-- Replace with your name or brand -->
             <h1>
               <div>0rnot</div>
             </h1>
 
-            <!-- Add a short description about yourself or your brand -->
             <p>High Tech,Low Life</p>
 
-            <!-- All your buttons go here -->
             <div class="button-stack" role="navigation">
 
 
-              <!-- Discord -->
               <a class="button button-discord" href="https://discordapp.com/users/1033218587676123146" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/discord.svg" alt="Discord Logo">Discord</a>
 
-              <!-- GitHub -->
               <a class="button button-github" href="https://github.com/0rnot" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/github.svg" alt="GitHub Logo">GitHub</a>
 
-              <!-- Reddit -->
               <a class="button button-reddit" href="https://www.reddit.com/user/NoZookeepergame7900/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/reddit.svg" alt="Reddit Logo">Reddit</a>
 
-              <!-- Spotify -->
               <a class="button button-spotify" href="https://open.spotify.com/user/qkwz3un86wbater7hwv8fkaqk?si=7e03be3e5749406b" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/spotify.svg" alt="Spotify Logo">Listen on Spotify</a>
 
-              <!-- Steam -->
               <a class="button button-steam" href="https://steamcommunity.com/profiles/76561199118771161/" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/steam.svg" alt="Steam Logo">Steam</a>
 
-              <!-- X -->
               <a class="button button-x" href="https://x.com/PE6K4C" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/x.svg" alt="X Logo">Follow on X</a>
 
-              <!-- Notion -->
               <a class="button button-notion" href="https://shine-caraway-3e7.notion.site/33efcba2442f8068aadffbe5c6cb6a34?v=33efcba2442f81e5a541000c59946564" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/notion.svg" alt="Notion Logo">Notion</a>
 
-              <!-- Obsidian -->
               <a class="button button-obsidian" href="https://obsidian.md/ja/" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/obsidian.svg" alt="Obsidian Logo">Obsidian</a>
 
-              <!-- Pinterest -->
-              <a class="button button-pinterest" href="https://pin.it/3KEbyEw73" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/pinterest.svg" alt="Pinterest Logo">Pinterest</a>
+              <a class="button button-keybase" href="https://keybase.io/0rnot" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="https://cdn.simpleicons.org/keybase/white" alt="Keybase Logo">Keybase</a>
 
-              <!-- Line -->
-              <a class="button button-line" href="https://line.me/ti/p/gdFjAL0hjT" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/line.svg" alt="Line Logo">Line</a>
-
-              <!-- Instagram -->
-              <a class="button button-instagram" href="https://www.instagram.com/_ry.zip?igsh=M3gzNTYxNDYxeXRv" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/instagram.svg" alt="Instagram Logo">Instagram</a>
-
-              <!-- paypay-->
-              <a class="button button-paypay" href="#" role="button" id="paypay-button"><img class="icon" aria-hidden="true" src="images/icons/paypay.png" alt="PayPay Logo">PayPay ID: ornot</a>
+              <a class="button button-btc" href="#" role="button" id="btc-button"><img class="icon" aria-hidden="true" src="https://cdn.simpleicons.org/bitcoin/white" alt="Bitcoin Logo">Coincheck (BTC)</a>
               
             </div>
 
-      <!-- Feel free to add your own footer information, including updating `privacy.html` to reflect how your LittleLink fork is set up -->
       <footer>
         <p>© 2022 0rnot</p>
       </footer>
@@ -221,11 +162,11 @@
 
   <script>
       document.addEventListener('DOMContentLoaded', () => {
-        const paypayButton = document.getElementById('paypay-button');
-        if (paypayButton) {
-          paypayButton.addEventListener('click', (e) => {
+        const btcButton = document.getElementById('btc-button');
+        if (btcButton) {
+          btcButton.addEventListener('click', (e) => {
             e.preventDefault(); // リンク動作（ページトップへ飛ぶ）を無効化
-            const idToCopy = "ornot"; // コピーするID
+            const idToCopy = "12uCSMbuUhiYAhBAgFre3iG6CEXkKVxwGF"; // コピーするBTCアドレス
 
             // Clipboard API (モダンブラウザ用)
             if (navigator.clipboard && navigator.clipboard.writeText) {
@@ -260,23 +201,23 @@
         // 画面中央下にハッカー風の通知を出す関数
         function showCopiedMessage() {
           const notification = document.createElement('div');
-          notification.textContent = 'SYSTEM: PayPay ID "ornot" コピー完了...';
+          notification.textContent = 'SYSTEM: BTCアドレスのコピーが完了しました。';
           notification.style.cssText = `
             position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
-            background-color: rgba(0, 255, 0, 0.8); color: black; font-family: 'Courier New', monospace;
+            background-color: rgba(247, 147, 26, 0.9); color: white; font-family: 'Courier New', monospace;
             padding: 12px 24px; border-radius: 5px; z-index: 10000;
-            box-shadow: 0 0 15px rgba(0, 255, 0, 0.5); opacity: 0; transition: opacity 0.3s;
+            box-shadow: 0 0 15px rgba(247, 147, 26, 0.6); opacity: 0; transition: opacity 0.3s;
           `;
           document.body.appendChild(notification);
           
           // ふわっと出す
           requestAnimationFrame(() => notification.style.opacity = '1');
 
-          // 1.8秒後に消す
+          // 2秒後に消す
           setTimeout(() => {
             notification.style.opacity = '0';
             setTimeout(() => document.body.removeChild(notification), 300);
-          }, 1800);
+          }, 2000);
         }
       });
     </script>
