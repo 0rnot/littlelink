@@ -18,17 +18,16 @@
     <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/brands.css">
-
 <style>
-      /* --- グローバル設定 --- */
+
       html {
-        cursor: crosshair; /* マウスポインターを十字（照準）にする */
+        cursor: crosshair;
       }
       a {
         cursor: pointer;
       }
 
-      /* --- モニター風グリッド背景（強化版） --- */
+
       body {
         background-image: 
           linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
@@ -36,14 +35,14 @@
         background-size: 30px 30px !important;
       }
 
-      /* --- ハッカー風タイトル（発光強化） --- */
+
       h1 {
         font-family: 'Courier New', Consolas, monospace !important;
         letter-spacing: 3px !important;
         text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
       }
 
-      /* --- アバター画像グリッチ（バグ）エフェクト --- */
+
       .avatar {
         animation: glitch 4s step-end infinite;
         position: relative;
@@ -55,12 +54,12 @@
         3% { transform: translate(0, 0); filter: hue-rotate(0deg) saturate(1); }
       }
 
-      /* --- タイピング風アニメーション（High Tech, Low Life） --- */
+
       .column > p {
         color: rgba(255, 255, 255, 0.8) !important;
         font-family: 'Courier New', Consolas, monospace !important;
-        overflow: hidden; /* はみ出した文字を隠す */
-        border-right: .15em solid rgba(255, 255, 255, .75); /* タイピングカーソル */
+        overflow: hidden; 
+        border-right: .15em solid rgba(255, 255, 255, .75);
         white-space: nowrap; /* 改行しない */
         margin: 0 auto !important;
         margin-bottom: var(--spacing-xl) !important;
@@ -73,17 +72,17 @@
       @keyframes typing { from { width: 0 } to { width: 19ch } } /* chユニットは文字数 */
       @keyframes blink-caret { from, to { border-color: transparent } 50% { border-color: white; } }
 
-      /* --- ボタン基本設定（ふわっと変化） --- */
+      /* --- ボタン基本設定 --- */
       .button, .button img {
         transition: all 0.2s ease !important;
       }
 
-      /* --- 枠線消し（特定ボタン） --- */
+      /* --- 枠線消し --- */
       .button-github, .button-x, .button-obsidian, .button-keybase, .button-btc {
         border: none !important;
       }
 
-      /* --- Keybase & BTC ボタン設定 --- */
+      /* --- Keybase & BTC --- */
       .button-keybase {
         background-color: #33A0FF !important; /* Keybaseのブルー */
         color: #FFFFFF !important;
@@ -93,10 +92,10 @@
         color: #FFFFFF !important;
       }
 
-      /* --- サイバー風ホバー（ネオンエフェクト） --- */
+      /* --- ネオンエフェクト --- */
       .button:hover {
         transform: translateY(-3px) scale(1.02); /* 少し浮いて大きくなる */
-        box-shadow: 0 0 20px rgba(255, 255, 255, 0.6) !important; /* 全ボタン共通で白く発光！ */
+        box-shadow: 0 0 20px rgba(255, 255, 255, 0.6) !important;
       }
       
       /* GitHub/X/Obsidianのホバー（白黒反転） */
@@ -198,10 +197,10 @@
           document.body.removeChild(textArea);
         }
 
-        // 画面中央下にハッカー風の通知を出す関数
+        // 画面中央下
         function showCopiedMessage() {
           const notification = document.createElement('div');
-          notification.textContent = 'SYSTEM: BTCアドレスのコピーが完了しました。';
+          notification.textContent = 'BTC address copied !';
           notification.style.cssText = `
             position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
             background-color: rgba(247, 147, 26, 0.9); color: white; font-family: 'Courier New', monospace;
@@ -220,6 +219,33 @@
           }, 2000);
         }
       });
+
+      console.log(`
+  ⡏⠉⠉⠉⠉⠉⠉⠋⠉⠉⠉⠉⠉⠉⠋⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠙⠉⠉⠉⠹ 
+  ⡇⢸⣿⡟⠛⢿⣷⠀⢸⣿⡟⠛⢿⣷⡄⢸⣿⡇⠀⢸⣿⡇⢸⣿⡇⠀⢸⣿⡇⠀ 
+  ⡇⢸⣿⣧⣤⣾⠿⠀⢸⣿⣇⣀⣸⡿⠃⢸⣿⡇⠀⢸⣿⡇⢸⣿⣇⣀⣸⣿⡇⠀ 
+  ⡇⢸⣿⡏⠉⢹⣿⡆⢸⣿⡟⠛⢻⣷⡄⢸⣿⡇⠀⢸⣿⡇⢸⣿⡏⠉⢹⣿⡇⠀ 
+  ⡇⢸⣿⣧⣤⣼⡿⠃⢸⣿⡇⠀⢸⣿⡇⠸⣿⣧⣤⣼⡿⠁⢸⣿⡇⠀⢸⣿⡇⠀ 
+  ⣇⣀⣀⣀⣀⣀⣀⣄⣀⣀⣀⣀⣀⣀⣀⣠⣀⡈⠉⣁⣀⣄⣀⣀⣀⣠⣀⣀⣀⣰ 
+  ⣇⣿⠘⣿⣿⣿⡿⡿⣟⣟⢟⢟⢝⠵⡝⣿⡿⢂⣼⣿⣷⣌⠩⡫⡻⣝⠹⢿⣿⣷ 
+  ⡆⣿⣆⠱⣝⡵⣝⢅⠙⣿⢕⢕⢕⢕⢝⣥⢒⠅⣿⣿⣿⡿⣳⣌⠪⡪⣡⢑⢝⣇ 
+  ⡆⣿⣿⣦⠹⣳⣳⣕⢅⠈⢗⢕⢕⢕⢕⢕⢈⢆⠟⠋⠉⠁⠉⠉⠁⠈⠼⢐⢕⢽ 
+  ⡗⢰⣶⣶⣦⣝⢝⢕⢕⠅⡆⢕⢕⢕⢕⢕⣴⠏⣠⡶⠛⡉⡉⡛⢶⣦⡀⠐⣕⢕ 
+  ⡝⡄⢻⢟⣿⣿⣷⣕⣕⣅⣿⣔⣕⣵⣵⣿⣿⢠⣿⢠⣮⡈⣌⠨⠅⠹⣷⡀⢱⢕ 
+  ⡝⡵⠟⠈⢀⣀⣀⡀⠉⢿⣿⣿⣿⣿⣿⣿⣿⣼⣿⢈⡋⠴⢿⡟⣡⡇⣿⡇⡀⢕ 
+  ⡝⠁⣠⣾⠟⡉⡉⡉⠻⣦⣻⣿⣿⣿⣿⣿⣿⣿⣿⣧⠸⣿⣦⣥⣿⡇⡿⣰⢗⢄ 
+  ⠁⢰⣿⡏⣴⣌⠈⣌⠡⠈⢻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣬⣉⣉⣁⣄⢖⢕⢕⢕ 
+  ⡀⢻⣿⡇⢙⠁⠴⢿⡟⣡⡆⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣵⣵⣿ 
+  ⡻⣄⣻⣿⣌⠘⢿⣷⣥⣿⠇⣿⣿⣿⣿⣿⣿⠛⠻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿ 
+  ⣷⢄⠻⣿⣟⠿⠦⠍⠉⣡⣾⣿⣿⣿⣿⣿⣿⢸⣿⣦⠙⣿⣿⣿⣿⣿⣿⣿⣿⠟ 
+  ⡕⡑⣑⣈⣻⢗⢟⢞⢝⣻⣿⣿⣿⣿⣿⣿⣿⠸⣿⠿⠃⣿⣿⣿⣿⣿⣿⡿⠁⣠ 
+  ⡝⡵⡈⢟⢕⢕⢕⢕⣵⣿⣿⣿⣿⣿⣿⣿⣿⣿⣶⣶⣿⣿⣿⣿⣿⠿⠋⣀⣈⠙ 
+  ⡝⡵⡕⡀⠑⠳⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⠛⢉⡠⡲⡫⡪⡪⡣
+      `);
+      
+
+      console.log("%cSYSTEM SECURED. WHAT ARE YOU LOOKING AT?", "color: #FF0032; font-size: 14px; font-weight: bold; font-family: 'Courier New', monospace;");
+
     </script>
   </body>
 </html>
