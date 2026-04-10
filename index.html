@@ -36,41 +36,104 @@
 
 <!-- ↓ここから追加（絶対赤くする＆枠線消す＆アイコン白くするマン）↓ -->
 <style>
-      /* --- 1. これまでの設定（PayPay赤＆枠線消し） --- */
-      .button-paypay {
-        background-color: #FF0032 !important;
-        color: #FFFFFF !important;
+      /* --- グローバル設定 --- */
+      html {
+        cursor: crosshair; /* マウスポインターを十字（照準）にする */
       }
-      .button-paypay img {
-        filter: brightness(0) invert(1) !important;
+      a {
+        cursor: pointer;
       }
+
+      /* --- モニター風グリッド背景（強化版） --- */
+      body {
+        background-image: 
+          linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px) !important;
+        background-size: 30px 30px !important;
+      }
+
+      /* --- ハッカー風タイトル（発光強化） --- */
+      h1 {
+        font-family: 'Courier New', Consolas, monospace !important;
+        letter-spacing: 3px !important;
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+      }
+
+      /* --- アバター画像グリッチ（バグ）エフェクト --- */
+      .avatar {
+        animation: glitch 4s step-end infinite;
+        position: relative;
+      }
+      @keyframes glitch {
+        0% { transform: translate(0, 0); }
+        1% { transform: translate(-3px, 3px); filter: hue-rotate(90deg) saturate(3); }
+        2% { transform: translate(3px, -3px); filter: hue-rotate(-90deg) saturate(3); }
+        3% { transform: translate(0, 0); filter: hue-rotate(0deg) saturate(1); }
+      }
+
+      /* --- タイピング風アニメーション（High Tech, Low Life） --- */
+      .column > p {
+        color: rgba(255, 255, 255, 0.8) !important;
+        font-family: 'Courier New', Consolas, monospace !important;
+        overflow: hidden; /* はみ出した文字を隠す */
+        border-right: .15em solid rgba(255, 255, 255, .75); /* タイピングカーソル */
+        white-space: nowrap; /* 改行しない */
+        margin: 0 auto !important;
+        margin-bottom: var(--spacing-xl) !important;
+        display: block;
+        width: 0; /* 最初は幅0 */
+        animation: 
+          typing 2s steps(19, end) forwards, /* 19文字分アニメーション */
+          blink-caret .75s step-end infinite;
+      }
+      @keyframes typing { from { width: 0 } to { width: 19ch } } /* chユニットは文字数 */
+      @keyframes blink-caret { from, to { border-color: transparent } 50% { border-color: white; } }
+
+      /* --- ボタン基本設定（ふわっと変化） --- */
+      .button, .button img {
+        transition: all 0.2s ease !important;
+      }
+
+      /* --- 枠線消し（GitHub, X, Obsidian, PayPay） --- */
       .button-github, .button-x, .button-obsidian, .button-paypay {
         border: none !important;
       }
 
-      /* --- 2. ネオン発光エフェクト --- */
-      .button {
-        transition: all 0.3s ease !important; /* ふわっと変化させる */
+      /* --- PayPayボタン設定（赤） --- */
+      .button-paypay {
+        background-color: #FF0032 !important;
+        color: #FFFFFF !important;
       }
+
+      /* --- サイバー風ホバー（反転＆ネオン）エフェクト --- */
       .button:hover {
-        transform: translateY(-3px) scale(1.02); /* カーソルを乗せると少し浮く */
-        box-shadow: 0 0 15px rgba(255, 255, 255, 0.4) !important; /* 白い光を放つ */
+        transform: translateY(-3px) scale(1.02); /* 少し浮いて大きくなる */
+      }
+      
+      /* PayPayのホバー（赤黒反転） */
+      .button-paypay:hover {
+        background-color: #000000 !important; /* 黒背景に */
+        color: #FF0032 !important; /* 文字が赤に */
+        box-shadow: 0 0 25px #FF0032 !important; /* 赤いネオン */
+      }
+      /* ホバー時にPayPayロゴも赤くする魔法 */
+      .button-paypay:hover img {
+        filter: brightness(0) invert(0) sepia(1) saturate(100) hue-rotate(330deg) !important;
       }
 
-      /* --- 3. ハッカー風デジタルフォント --- */
-      h1 {
-        font-family: 'Courier New', Consolas, monospace !important; /* カクカクした等幅フォント */
-        letter-spacing: 3px !important; /* 文字の間隔を少し空ける */
-        text-shadow: 0 0 8px rgba(255, 255, 255, 0.3); /* 文字自体も少し発光させる */
+      /* GitHub/X/Obsidianのホバー（白黒反転） */
+      :root.theme-dark .button-github:hover,
+      :root.theme-dark .button-x:hover,
+      :root.theme-dark .button-obsidian:hover {
+        background-color: #ffffff !important; /* 白背景に */
+        color: #000000 !important; /* 文字が黒に */
+        box-shadow: 0 0 25px #ffffff !important; /* 白いネオン */
       }
-
-      /* --- 4. モニター風グリッド背景 --- */
-      body {
-        /* 薄い白のマス目を背景に敷き詰める */
-        background-image: 
-          linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px) !important;
-        background-size: 30px 30px !important; /* マス目の大きさ */
+      /* ホバー時にロゴも黒くする魔法 */
+      :root.theme-dark .button-github:hover img,
+      :root.theme-dark .button-x:hover img,
+      :root.theme-dark .button-obsidian:hover img {
+        filter: invert(1) !important;
       }
     </style>
     <!-- ↑ここまで追加↑ -->
@@ -137,9 +200,10 @@
               <!-- Instagram -->
               <a class="button button-instagram" href="https://www.instagram.com/_ry.zip?igsh=M3gzNTYxNDYxeXRv" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/instagram.svg" alt="Instagram Logo">Instagram</a>
 
-              <!-- リンク先をなくして、文字をIDに変更 -->
-              <a class="button button-paypay" href="#" role="button"><img class="icon" aria-hidden="true" src="https://cdn.simpleicons.org/paypay/white" alt="PayPay Logo">PayPay ID: ornot</a>
-      </div>
+              <!-- paypay-->
+              <a class="button button-paypay" href="#" role="button" id="paypay-button"><img class="icon" aria-hidden="true" src="https://cdn.simpleicons.org/paypay/white" alt="PayPay Logo">PayPay ID: ornot</a>
+              
+            </div>
 
       <!-- Feel free to add your own footer information, including updating `privacy.html` to reflect how your LittleLink fork is set up -->
       <footer>
@@ -149,6 +213,66 @@
     </div>
   </div>
 
-</body>
+  <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const paypayButton = document.getElementById('paypay-button');
+        if (paypayButton) {
+          paypayButton.addEventListener('click', (e) => {
+            e.preventDefault(); // リンク動作（ページトップへ飛ぶ）を無効化
+            const idToCopy = "ornot"; // コピーするID
 
+            // Clipboard API (モダンブラウザ用)
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+              navigator.clipboard.writeText(idToCopy).then(() => {
+                showCopiedMessage();
+              }).catch(err => {
+                fallbackCopy(idToCopy); // 失敗時は古い方法を試す
+              });
+            } else {
+              fallbackCopy(idToCopy); // API未対応ブラウザ
+            }
+          });
+        }
+
+        // 古いブラウザ用のコピー方法（フォールバック）
+        function fallbackCopy(text) {
+          const textArea = document.createElement("textarea");
+          textArea.value = text;
+          textArea.style.position = "fixed"; // スクロール防止
+          document.body.appendChild(textArea);
+          textArea.focus();
+          textArea.select();
+          try {
+            document.execCommand('copy');
+            showCopiedMessage();
+          } catch (err) {
+            console.error('Copy failed', err);
+          }
+          document.body.removeChild(textArea);
+        }
+
+        // 画面中央下にハッカー風の通知を出す関数
+        function showCopiedMessage() {
+          const notification = document.createElement('div');
+          notification.textContent = 'SYSTEM: PayPay ID "ornot" コピー完了...';
+          notification.style.cssText = `
+            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+            background-color: rgba(0, 255, 0, 0.8); color: black; font-family: 'Courier New', monospace;
+            padding: 12px 24px; border-radius: 5px; z-index: 10000;
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.5); opacity: 0; transition: opacity 0.3s;
+          `;
+          document.body.appendChild(notification);
+          
+          // ふわっと出す
+          requestAnimationFrame(() => notification.style.opacity = '1');
+
+          // 1.8秒後に消す
+          setTimeout(() => {
+            notification.style.opacity = '0';
+            setTimeout(() => document.body.removeChild(notification), 300);
+          }, 1800);
+        }
+      });
+    </script>
+  </body>
 </html>
