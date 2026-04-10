@@ -113,30 +113,27 @@
       /* --- サイバー風ホバー（反転＆ネオン）エフェクト --- */
       .button:hover {
         transform: translateY(-3px) scale(1.02); /* 少し浮いて大きくなる */
+        box-shadow: 0 0 20px rgba(255, 255, 255, 0.6) !important; /* ★ここを追加：全ボタン共通で白く発光！★ */
       }
       
-      /* ↓ 修正：PayPayは黒くならず、赤いままネオンだけ光るようにする ↓ */
+      /* PayPayのホバー（赤ネオン維持） */
       .button-paypay:hover {
-        background-color: #FF0032 !important; /* 赤のまま */
-        color: #FFFFFF !important; /* 文字も白のまま */
-        box-shadow: 0 0 25px #FF0032 !important; /* 赤いネオン */
+        background-color: #FF0032 !important;
+        color: #FFFFFF !important;
+        box-shadow: 0 0 25px #FFFFFF !important; /* PayPayだけは特別に赤く光る */
       }
       .button-paypay:hover img {
-        filter: brightness(0) invert(1) !important; /* アイコンも白のまま */
+        filter: brightness(0) invert(1) !important;
       }
 
-      /* GitHub/X/Obsidianのホバー（白黒反転） */
-      /* （ここはそのまま残しておいてOKです） */
-
-      /* GitHub/X/Obsidianのホバー（白黒反転） */
+      /* GitHub/X/Obsidianのホバー（白黒反転＆強めの白ネオン） */
       :root.theme-dark .button-github:hover,
       :root.theme-dark .button-x:hover,
       :root.theme-dark .button-obsidian:hover {
-        background-color: #ffffff !important; /* 白背景に */
-        color: #000000 !important; /* 文字が黒に */
-        box-shadow: 0 0 25px #ffffff !important; /* 白いネオン */
+        background-color: #ffffff !important;
+        color: #000000 !important;
+        box-shadow: 0 0 25px #ffffff !important;
       }
-      /* ホバー時にロゴも黒くする魔法 */
       :root.theme-dark .button-github:hover img,
       :root.theme-dark .button-x:hover img,
       :root.theme-dark .button-obsidian:hover img {
