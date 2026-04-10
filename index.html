@@ -34,14 +34,18 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/brands.css">
 
-<!-- ↓ここから追加（絶対赤くする＆枠線消すマン）↓ -->
+<!-- ↓ここから追加（絶対赤くする＆枠線消す＆アイコン白くするマン）↓ -->
     <style>
       .button-paypay {
         background-color: #FF0032 !important;
         color: #FFFFFF !important;
-        border: none !important;
       }
-      .button-github, .button-x, .button-obsidian {
+      /* ↓追加：PayPayの中の画像を強制的に真っ白にする魔法 */
+      .button-paypay img {
+        filter: brightness(0) invert(1) !important;
+      }
+      /* 枠線を消す */
+      .button-github, .button-x, .button-obsidian, .button-paypay {
         border: none !important;
       }
     </style>
