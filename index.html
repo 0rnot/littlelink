@@ -98,11 +98,16 @@
       .button-github, .button-x, .button-obsidian, .button-paypay {
         border: none !important;
       }
-
+  
       /* --- PayPayボタン設定（赤） --- */
       .button-paypay {
         background-color: #FF0032 !important;
         color: #FFFFFF !important;
+      }
+
+      /* ↓ これが抜けてました！アイコンを強制的に真っ白にする魔法 ↓ */
+      .button-paypay img {
+        filter: brightness(0) invert(1) !important;
       }
 
       /* --- サイバー風ホバー（反転＆ネオン）エフェクト --- */
@@ -110,16 +115,18 @@
         transform: translateY(-3px) scale(1.02); /* 少し浮いて大きくなる */
       }
       
-      /* PayPayのホバー（赤黒反転） */
+      /* ↓ 修正：PayPayは黒くならず、赤いままネオンだけ光るようにする ↓ */
       .button-paypay:hover {
-        background-color: #000000 !important; /* 黒背景に */
-        color: #FF0032 !important; /* 文字が赤に */
+        background-color: #FF0032 !important; /* 赤のまま */
+        color: #FFFFFF !important; /* 文字も白のまま */
         box-shadow: 0 0 25px #FF0032 !important; /* 赤いネオン */
       }
-      /* ホバー時にPayPayロゴも赤くする魔法 */
       .button-paypay:hover img {
-        filter: brightness(0) invert(0) sepia(1) saturate(100) hue-rotate(330deg) !important;
+        filter: brightness(0) invert(1) !important; /* アイコンも白のまま */
       }
+
+      /* GitHub/X/Obsidianのホバー（白黒反転） */
+      /* （ここはそのまま残しておいてOKです） */
 
       /* GitHub/X/Obsidianのホバー（白黒反転） */
       :root.theme-dark .button-github:hover,
