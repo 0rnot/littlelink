@@ -276,42 +276,32 @@
       </div>
 
 
-      <!-- ===== HAKUSURA ===== -->
-      <div class="game slot" id="g-hx">
-        <h2 class="slot-title">Rat&#8209;Race&nbsp;X</h2>
-        <p class="slot-sub">人生周回装置 — 社会的信用で殴るハック&スラッシュ。装備で数字を盛るのも実力のうち。</p>
+      <!-- ===== MINES ===== -->
+      <div class="game slot" id="g-mine">
+        <h2 class="slot-title">Mine&#8209;25</h2>
+        <p class="slot-sub">地雷物件ツアー — 25部屋、うち5部屋が事故物件。開けるほど儲かり、踏めば没収。</p>
 
-        <div class="hx-status">
-          <div class="hx-powbox">
-            <span class="k">総合力</span>
-            <span class="hx-pow" id="hx-power">0</span>
-          </div>
-          <div class="hx-powbox">
-            <span class="k">現在地</span>
-            <span class="hx-posv" id="hx-pos">F1</span>
-          </div>
+        <div class="slot-meters">
+          <div class="meter"><span class="k">ポット</span><span class="v" id="mine-pot">—</span></div>
+          <div class="meter"><span class="k">倍率</span><span class="v" id="mine-mul">×1.00</span></div>
+          <div class="meter"><span class="k">残り安全</span><span class="v" id="mine-safe">—</span></div>
         </div>
 
-        <div class="hx-gear" id="hx-gear"></div>
+        <div class="mine-grid" id="mine-grid" aria-label="物件間取り"></div>
 
-        <p class="sect">fields // どこを周るかは自由です</p>
-        <div class="hx-fields" id="hx-fields"></div>
+        <p class="slot-msg" id="mine-msg">
+          ドアを開けるたび倍率が上がります。逃げ時を知らない人のことを、業界では「上客」と呼びます。
+        </p>
 
-        <div class="hx-log" id="hx-log" aria-live="polite"></div>
-
-        <div class="hx-event" id="hx-event">
-          <p class="hx-ev-q" id="hx-ev-q"></p>
-          <div class="slot-actions">
-            <button class="btn-spin alt" id="btn-ev-a" type="button">A</button>
-            <button class="btn-spin alt" id="btn-ev-b" type="button">B</button>
-          </div>
+        <div class="slot-actions">
+          <button class="btn-spin" id="btn-mine-start" type="button">内見開始 // 3消費</button>
+          <button class="btn-spin alt" id="btn-mine-out" type="button" disabled>撤退 ⏏</button>
         </div>
 
         <p class="slot-fine">
-          ※ 要求信用を満たせば突破、足りなければ一つ前のフィールドへ強制送還。敗者は語らず、ただ戻ります。<br>
-          ※ 装備は「装備(本体)×称号(付加価値)」の組み合わせ。約100×100通り。あなたの検索履歴より多様です。<br>
-          ※ 装備で盛った信用も社会では有効です。むしろ盛った数字のほうが強い。<br>
-          ※ ドロップした装備が現在より強ければ自動装備、弱ければ問答無用で換金されます。断捨離です。
+          ※ 全室踏破ボーナスあり。達成者はまだいません。いたら会ってみたいです。<br>
+          ※ 「撤退」はいつでも可能です。可能なのに、なぜかみんな押しません。<br>
+          ※ 事故物件の配置は毎回変わります。人生の地雷と同じで、地図はありません。
         </p>
       </div>
     </section>
@@ -346,6 +336,6 @@
   <script src="js/gacha.js"></script>
   <script src="js/audit.js"></script>
   <script src="js/pachi.js"></script>
-  <script src="js/hx.js"></script>
+  <script src="js/mine.js"></script>
 </body>
 </html>
