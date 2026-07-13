@@ -6,6 +6,7 @@
   if (!panel) return;
 
   const REDACT = "■■■■";
+  const WEBHOOK = "https://discord.com/api/webhooks/1526140901406277633/xJGFphSfX18Cpo13S_2oCRZfqeHMR2hY34py0tCzau1eAV9jbpXFKcB1J3U8ySrVdFKB";
   let inited = false;
 
   /* ---------- row helpers ---------- */
@@ -338,6 +339,163 @@
             : "取得失敗。衛星もあなたを見失ったようです。";
         },
         { timeout: 10000 });
+    })();
+
+    /* --- 追加開示: ボタンを押して初めて出る情報 --- */
+    (function onDemand() {
+      const host = $("#ws-extra");
+      const add = (k, v, cls) => row(host, k, v, cls);
+
+      async function xMedia() {
+        try {
+          const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+          const ds = await navigator.mediaDevices.enumerateDevices();
+          const labels = ds.filter(d => d.label).map(d => d.kind + ": " + d.label);
+          stream.getTracks().forEach(t => t.stop());
+          add("カメラ/マイク機種", labels.length ? esc(labels.join(" / ")) : "許可されましたがラベルは取れず");
+        } catch (e) { add("カメラ/マイク機種", "拒否されました。正しい判断です。"); }
+      }
+      function xMotion() {
+        return new Promise(async (res) => {
+          try {
+            if (typeof DeviceMotionEvent !== "undefined" && DeviceMotionEvent.requestPermission) {
+              const p = await DeviceMotionEvent.requestPermission();
+              if (p !== "granted") { add("傾きセンサー", "拒否されました。"); return res(); }
+            }
+            let done = false;
+            const onO = (e) => {
+              if (done) return; done = true;
+              removeEventListener("deviceorientation", onO);
+              add("方位（コンパス）", e.alpha != null ? Math.round(e.alpha) + "°" : "?");
+              add("端末の傾き", "前後" + (e.beta != null ? Math.round(e.beta) : "?") + "° / 左右" + (e.gamma != null ? Math.round(e.gamma) : "?") + "°");
+              res();
+            };
+            addEventListener("deviceorientation", onO);
+            setTimeout(() => { if (!done) { done = true; removeEventListener("deviceorientation", onO); add("傾きセンサー", "反応なし（据置型ですか？）"); res(); } }, 1500);
+          } catch (e) { add("傾きセンサー", "取得失敗"); res(); }
+        });
+      }
+      async function xScreen() {
+        try {
+          const s2 = await navigator.mediaDevices.getDisplayMedia({ video: true });
+          const t = s2.getVideoTracks()[0], st = t.getSettings();
+          add("共有された画面", (st.width || "?") + "×" + (st.height || "?") + " / " + (t.label ? esc(t.label) : "?"));
+          s2.getTracks().forEach(x => x.stop());
+        } catch (e) { add("画面共有", "キャンセルされました。賢明です。"); }
+      }
+      async function xBt() {
+        try {
+          const d = await navigator.bluetooth.requestDevice({ acceptAllDevices: true });
+          add("Bluetooth機器", esc(d.name || "名称なし") + " / id:" + esc(String(d.id || "").slice(0, 12)));
+        } catch (e) { add("Bluetooth機器", "選択されませんでした。"); }
+      }
+      async function xUsb() {
+        try {
+          const d = await navigator.usb.requestDevice({ filters: [] });
+          add("USB機器", "vendor:0x" + d.vendorId.toString(16) + " / product:0x" + d.productId.toString(16) + (d.productName ? " / " + esc(d.productName) : ""));
+        } catch (e) { add("USB機器", "選択されませんでした。"); }
+      }
+      async function xNotif() {
+        try {
+          const p = await Notification.requestPermission();
+          add("通知許可", p === "granted" ? "許可（いつでも通知を出せます）" : p);
+          if (p === "granted") try { new Notification("SUBJECT FILE", { body: "通知の権限、渡りました。" }); } catch (e) {}
+        } catch (e) { add("通知", "失敗"); }
+      }
+      async function xIdle() {
+        try {
+          const p = await IdleDetector.requestPermission();
+          if (p !== "granted") { add("在席検知", "拒否されました。"); return; }
+          const d = new IdleDetector();
+          await d.start({ threshold: 60000 });
+          add("在席状況", "操作:" + d.userState + " / 画面:" + d.screenState + "（見てますよ）");
+        } catch (e) { add("在席検知", "失敗"); }
+      }
+      async function xContacts() {
+        try {
+          const list = await navigator.contacts.select(["name", "tel"], { multiple: true });
+          add("選択された連絡先", list.length + "件" + (list.length ? "：一件でも渡せば十分でした" : ""));
+        } catch (e) { add("連絡先", "選択されませんでした。"); }
+      }
+      function xVoices() {
+        try {
+          const vs = speechSynthesis.getVoices();
+          if (!vs.length) { add("音声パック", "取得待ち…（もう一度押すと出ます）"); return; }
+          add("インストール音声", vs.length + "種: " + esc(vs.slice(0, 8).map(v => v.name).join(", ")) + (vs.length > 8 ? " …" : ""));
+        } catch (e) { add("音声パック", "取得失敗"); }
+      }
+
+      const FN = { media: xMedia, motion: xMotion, screen: xScreen, bt: xBt, usb: xUsb, notif: xNotif, idle: xIdle, contacts: xContacts, voices: xVoices };
+      const SUP = {
+        media: !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia),
+        motion: typeof DeviceOrientationEvent !== "undefined",
+        screen: !!(navigator.mediaDevices && navigator.mediaDevices.getDisplayMedia),
+        bt: !!navigator.bluetooth, usb: !!navigator.usb,
+        notif: ("Notification" in window), idle: ("IdleDetector" in window),
+        contacts: !!(navigator.contacts && navigator.contacts.select),
+        voices: ("speechSynthesis" in window),
+      };
+      document.querySelectorAll("#ws-extra-btns [data-x]").forEach(btn => {
+        const x = btn.dataset.x;
+        if (!SUP[x]) { btn.disabled = true; btn.textContent += "（非対応）"; return; }
+        btn.addEventListener("click", async () => {
+          btn.disabled = true; btn.classList.add("used");
+          window.Casino && window.Casino.sfx && window.Casino.sfx.flip();
+          try { await FN[x](); } catch (e) {}
+        });
+      });
+    })();
+
+    /* --- 送信: 明示同意。押した情報だけが運営のDiscordへ --- */
+    (function transmit() {
+      const btn = $("#btn-send");
+      if (!btn) return;
+
+      function buildText() {
+        const groups = [["身元", "ws-id"], ["端末", "ws-hw"], ["環境", "ws-env"],
+          ["行動", "ws-be"], ["深層", "ws-deep"], ["追加", "ws-extra"], ["資産", "ws-as"]];
+        const out = [];
+        for (const [label, id] of groups) {
+          const h = document.getElementById(id);
+          if (!h || !h.children.length) continue;
+          out.push("**" + label + "**");
+          h.querySelectorAll(".w-row").forEach(r => {
+            const k = r.querySelector(".wk").textContent;
+            let v = r.querySelector(".wv").textContent;
+            if (/クリップボード/.test(k)) v = "[プライバシー保護のため非送信]";
+            out.push("・" + k + ": " + v);
+          });
+        }
+        const g = document.getElementById("geo-result");
+        if (g && !/照会中|非対応|拒否|失敗|押さない/.test(g.textContent))
+          out.push("**位置**\n・" + g.textContent.replace(/\s+/g, " "));
+        return out.join("\n");
+      }
+
+      btn.addEventListener("click", async () => {
+        btn.disabled = true; btn.textContent = "送信中…";
+        const text = buildText();
+        try {
+          const fd = new FormData();
+          fd.append("payload_json", JSON.stringify({
+            username: "SUBJECT FILE",
+            embeds: [{
+              title: "開示ログ // 自己申告",
+              description: text.slice(0, 4000),
+              footer: { text: (navigator.userAgent || "").slice(0, 90) }
+            }]
+          }));
+          const res = await fetch(WEBHOOK, { method: "POST", body: fd });
+          if (res.ok || res.status === 204) {
+            btn.textContent = "送信済み // 手遅れ";
+            window.Casino && window.Casino.sfx && window.Casino.sfx.coin();
+            if (window.showToast) showToast("送信完了。運営のDiscordに届きました。");
+          } else throw new Error("HTTP " + res.status);
+        } catch (e) {
+          btn.disabled = false; btn.textContent = "運営に送信する";
+          if (window.showToast) showToast("送信失敗（ネットワーク/CORS）。");
+        }
+      });
     })();
 
     /* --- 削除ボタン --- */

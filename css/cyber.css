@@ -790,3 +790,10 @@ html.invert { filter: invert(1); }
 @media (prefers-reduced-motion: reduce) {
   .w-row, .watch-file.wiping, .w-live, .w-dots { animation: none !important; }
 }
+
+/* ---------- WATCH: on-demand button grid ---------- */
+.w-btns { display: grid; grid-template-columns: 1fr 1fr; gap: .4rem; margin-bottom: .8rem; }
+.w-btns .btn-spin { min-height: 46px; font-size: .68rem; letter-spacing: .06em; }
+.w-btns .btn-spin.used { opacity: .4; }
+#send-note b { color: var(--white); }
+@media (max-width: 400px) { .w-btns { grid-template-columns: 1fr; } }

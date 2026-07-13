@@ -19,8 +19,8 @@
   <meta property="og:image" content="https://0rnot.com/images/avatar.png">
   <meta property="og:url" content="https://0rnot.com">
 
-  <link rel="stylesheet" href="css/reset.css?v=14">
-  <link rel="stylesheet" href="css/cyber.css?v=14">
+  <link rel="stylesheet" href="css/reset.css?v=15">
+  <link rel="stylesheet" href="css/cyber.css?v=15">
 </head>
 
 <body>
@@ -314,13 +314,33 @@
           <p class="w-head">資産状況 // ASSETS（GAMEタブ連動）</p>
           <div class="w-sect" id="ws-as"></div>
 
+          <p class="w-head">追加開示 // ON DEMAND（押した分だけ増えます）</p>
+          <div class="w-btns" id="ws-extra-btns">
+            <button class="btn-spin alt" type="button" data-x="media">カメラ/マイクの機種名</button>
+            <button class="btn-spin alt" type="button" data-x="motion">傾き・方位センサー</button>
+            <button class="btn-spin alt" type="button" data-x="screen">画面を共有</button>
+            <button class="btn-spin alt" type="button" data-x="bt">Bluetooth機器</button>
+            <button class="btn-spin alt" type="button" data-x="usb">USB機器</button>
+            <button class="btn-spin alt" type="button" data-x="notif">通知を許可</button>
+            <button class="btn-spin alt" type="button" data-x="idle">在席状況</button>
+            <button class="btn-spin alt" type="button" data-x="contacts">連絡先</button>
+            <button class="btn-spin alt" type="button" data-x="voices">音声パック</button>
+          </div>
+          <div class="w-sect" id="ws-extra"></div>
+
+          <p class="w-head">送信 // TRANSMIT</p>
+          <p class="slot-msg" id="send-note">下を押すと、ここに表示されている情報が<b>運営（0rnot）のDiscord</b>に送信されます。位置情報も、開示していれば含まれます。<b>クリップボードの中身だけは安全のため送られません。</b></p>
+          <div class="slot-actions">
+            <button class="btn-spin" id="btn-send" type="button">運営に送信する</button>
+          </div>
+
           <div class="slot-actions">
             <button class="btn-spin" id="btn-wipe" type="button">このファイルを削除する</button>
           </div>
 
           <p class="slot-fine">
             ※ IPと所在地のみ、あなたのブラウザが外部API（ipapi.co）に自分から問い合わせています。行きなさいと言ったのは当サイトですが。<br>
-            ※ その他は全てブラウザ内で完結し、どこにも送信・保存されません。保存する価値がないので。<br>
+            ※ 表示情報は既定ではブラウザ内に留まります。「運営に送信する」を押した時だけ、内容が0rnotのDiscordへ送られます（クリップボードの中身は除外）。<br>
             ※ 普段見ているサイトは、これと同じものを黙って集めて売っています。当サイトは見せて煽るだけです。健全ですね。
           </p>
         </div>
@@ -351,12 +371,12 @@
 
   <div class="toast" id="toast" role="status"></div>
 
-  <script src="js/main.js?v=14"></script>
-  <script src="js/core.js?v=14"></script>
-  <script src="js/slot.js?v=14"></script>
-  <script src="js/gacha.js?v=14"></script>
-  <script src="js/audit.js?v=14"></script>
-  <script src="js/pachi.js?v=14"></script>
-  <script src="js/watch.js?v=14"></script>
+  <script src="js/main.js?v=15"></script>
+  <script src="js/core.js?v=15"></script>
+  <script src="js/slot.js?v=15"></script>
+  <script src="js/gacha.js?v=15"></script>
+  <script src="js/audit.js?v=15"></script>
+  <script src="js/pachi.js?v=15"></script>
+  <script src="js/watch.js?v=15"></script>
 </body>
 </html>
