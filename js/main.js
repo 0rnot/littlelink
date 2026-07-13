@@ -9,6 +9,9 @@
   function activate(id, push) {
     tabs.forEach(t => t.setAttribute("aria-selected", String(t.dataset.panel === id)));
     panels.forEach(p => p.classList.toggle("active", p.id === "panel-" + id));
+    /* lure: while on LINKS, the GAME tab glows like a bad idea */
+    const gameTab = tabs.find(t => t.dataset.panel === "game");
+    if (gameTab) gameTab.classList.toggle("lure", id !== "game");
     if (push) history.replaceState(null, "", "#" + id);
     document.dispatchEvent(new CustomEvent("panelchange", { detail: id }));
   }
@@ -18,6 +21,18 @@
     if (panels.some(p => p.id === "panel-" + id)) activate(id, false);
   });
   activate(location.hash === "#game" ? "game" : "links", false);
+
+  /* one-time whisper from the house */
+  try {
+    if (location.hash !== "#game" && !sessionStorage.getItem("lured")) {
+      setTimeout(() => {
+        if (document.querySelector("#panel-links.active") && window.showToast) {
+          showToast("▶ GAME: 5機種稼働中。胴元がお待ちしています。");
+          sessionStorage.setItem("lured", "1");
+        }
+      }, 7000);
+    }
+  } catch (e) {}
 
   /* ---------- HUD clock + fake telemetry ---------- */
   const clock = document.getElementById("hud-clock");

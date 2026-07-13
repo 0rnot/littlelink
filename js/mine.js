@@ -50,8 +50,7 @@
     mulEl.textContent = active ? "×" + mult(opened.size).toFixed(2) : "×1.00";
     safeEl.textContent = active ? (SIZE - MINES - opened.size) : "—";
     bOut.disabled = !active || opened.size === 0;
-    if (W.broke() && !active) { bStart.textContent = "借金する +20"; bStart.classList.add("debt"); }
-    else { bStart.textContent = active ? "内見中…" : "内見開始 // " + COST + "消費"; bStart.classList.remove("debt"); }
+    bStart.textContent = active ? "内見中…" : "内見開始 // " + COST + "消費";
     bStart.disabled = active;
   }
   document.addEventListener("walletchange", render);
@@ -81,10 +80,8 @@
   function start() {
     if (active) return;
     if (W.broke()) {
-      const debt = W.borrow();
-      say("<b>+20 融資。</b>内見のための借金。もう住む前から詰んでいます。累計負債: <b>¥" +
-        (debt * 10000).toLocaleString() + "</b>");
-      sfx.borrow(); render(); return;
+      say("<b>信用ゼロ。</b>内見すら審査落ち。上の【<b>借金する</b>】が点滅しています。押せば+20。押した瞬間から利息が育ちます。");
+      sfx.lose(); render(); return;
     }
     if (!W.pay(COST)) { say("信用不足。入居審査どころか内見審査で落ちました。"); sfx.lose(); return; }
     mines = new Set(); opened = new Set();

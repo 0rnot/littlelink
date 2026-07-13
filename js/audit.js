@@ -39,8 +39,7 @@
     streakEl.textContent = streak;
     bHigh.disabled = bLow.disabled = !active || busy;
     bOut.disabled = !active || busy || pot === 0;
-    if (W.broke() && !active) { bStart.textContent = "借金する +20"; bStart.classList.add("debt"); }
-    else { bStart.textContent = active ? "査定中…" : "査定開始 // 2消費"; bStart.classList.remove("debt"); }
+    bStart.textContent = active ? "査定中…" : "査定開始 // 2消費";
     bStart.disabled = active;
   }
   document.addEventListener("walletchange", render);
@@ -55,10 +54,8 @@
   function start() {
     if (active || busy) return;
     if (W.broke()) {
-      const debt = W.borrow();
-      say("<b>+20 融資。</b>査定を受けるために借金。本末転倒という言葉の実演です。累計負債: <b>¥" +
-        (debt * 10000).toLocaleString() + "</b>");
-      sfx.borrow(); render(); return;
+      say("<b>信用ゼロ。</b>査定対象がありません。上の【<b>借金する</b>】が点滅しています。押せば+20。押した瞬間から利息が育ちます。");
+      sfx.lose(); render(); return;
     }
     if (!W.pay(2)) { say("信用不足。査定のスタートラインにすら立てない。就活と同じですね。"); sfx.lose(); return; }
     cur = drawCard(); pot = 2; streak = 0; active = true;

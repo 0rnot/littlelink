@@ -152,18 +152,13 @@
     else { raf = null; renderBtn(); }
   }
 
-  function renderBtn() {
-    if (W.broke()) { btn.textContent = "借金する +20"; btn.classList.add("debt"); }
-    else { btn.textContent = "打つ // 1消費"; btn.classList.remove("debt"); }
-  }
+  function renderBtn() { btn.textContent = "打つ // 1消費"; }
   document.addEventListener("walletchange", renderBtn);
 
   function shoot() {
     if (W.broke()) {
-      const debt = W.borrow();
-      msg.innerHTML = "<b>+20 融資。</b>パチンコ資金の借入。ここまでがワンセットの様式美です。累計負債: <b>¥" +
-        (debt * 10000).toLocaleString() + "</b>";
-      sfx.borrow(); return;
+      msg.innerHTML = "<b>信用ゼロ。</b>玉は信用でできています。上の【<b>借金する</b>】が点滅しています。押せば+20。押した瞬間から利息が育ちます。";
+      sfx.lose(); return;
     }
     if (balls.length >= 6) return;
     if (!W.pay(1)) return;
@@ -179,7 +174,8 @@
   }
 
   btn.addEventListener("click", shoot);
-  canvas.addEventListener("pointerdown", shoot);
+  /* fire only on a real tap: "click" never fires when the gesture became a scroll */
+  canvas.addEventListener("click", shoot);
   document.addEventListener("visibilitychange", () => {
     if (document.hidden && raf) { cancelAnimationFrame(raf); raf = null; }
     else if (!document.hidden && balls.length && !raf) raf = requestAnimationFrame(step);

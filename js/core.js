@@ -18,12 +18,21 @@
   const $ = (s) => document.querySelector(s);
   const elC = $("#m-credit"), elA = $("#m-attempts"), elD = $("#m-debt");
 
+  const debtMeter = elD ? elD.closest(".meter") : null;
   function render() {
     if (!elC) return;
     elC.textContent = st.credit;
     elC.classList.toggle("neg", st.credit <= 0);
     elA.textContent = st.attempts;
-    elD.textContent = st.debt > 0 ? "¥" + (st.debt * 10000).toLocaleString() : "—";
+    if (debtMeter) {
+      const broke = st.credit <= 0;
+      debtMeter.classList.toggle("loan", broke);
+      debtMeter.setAttribute("role", broke ? "button" : "");
+      debtMeter.tabIndex = broke ? 0 : -1;
+      debtMeter.querySelector(".k").textContent = broke ? "借金する" : "累計負債";
+      elD.textContent = broke ? "+20"
+        : (st.debt > 0 ? "¥" + (st.debt * 10000).toLocaleString() : "—");
+    }
     document.dispatchEvent(new CustomEvent("walletchange"));
   }
 
@@ -227,6 +236,21 @@
     if (e.code === "ArrowRight") { e.preventDefault(); showGame(gi + 1); beep(500, .05, .03); }
   });
   if (gTitle) showGame(0);
+
+  /* borrowing lives on the debt meter — one loan shark for all machines */
+  function takeLoan() {
+    if (st.credit > 0) return;
+    Wallet.borrow();
+    sfx.borrow();
+    if (window.showToast) window.showToast(
+      "+20 融資完了 // 累計負債 ¥" + (st.debt * 10000).toLocaleString() + "（利率18%・複利・良心なし）");
+  }
+  if (debtMeter) {
+    debtMeter.addEventListener("click", takeLoan);
+    debtMeter.addEventListener("keydown", (e) => {
+      if (e.code === "Enter" || e.code === "Space") { e.preventDefault(); takeLoan(); }
+    });
+  }
 
   window.Casino = { W: Wallet, beep, sfx, fx: { win, burst, shake, flash: doFlash, bigText, countUp } };
   render();

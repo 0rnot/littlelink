@@ -58,7 +58,7 @@
     "リーチ。期待という名の税金を徴収中……",
     "リーチ。脳内物質は当社の利益となります。",
   ];
-  const BROKE = "<b>信用残高: 0。</b>現実社会へようこそ。ボタンで借金ができます（利息はしっかり取ります）。";
+  const BROKE = "<b>信用残高: 0。</b>現実社会へようこそ。上の【<b>借金する</b>】が点滅しています。押せば+20。押した瞬間から利息が育ちます。";
 
   const BAG = [];
   SYMBOLS.forEach((s, i) => { for (let k = 0; k < s.w; k++) BAG.push(i); });
@@ -84,10 +84,7 @@
     return frag;
   }
 
-  function renderBtn() {
-    if (W.broke()) { btn.textContent = "借金する +20"; btn.classList.add("debt"); }
-    else { btn.textContent = "SPIN // 1消費"; btn.classList.remove("debt"); }
-  }
+  function renderBtn() { btn.textContent = "SPIN // 1消費"; }
   document.addEventListener("walletchange", renderBtn);
   const say = (html) => { msg.innerHTML = html; };
 
@@ -96,10 +93,8 @@
     if (busy) return;
 
     if (W.broke()) {
-      const debt = W.borrow();
-      say("<b>+20 融資しました。</b>ご返済は不要です。代わりに尊厳をいただきました。" +
-          " 累計負債: <b>¥" + (debt * 10000).toLocaleString() + "</b>（利率18%・複利・良心なし）");
-      sfx.borrow();
+      say("<b>信用残高: 0。</b>上の【<b>借金する</b>】が点滅しています。押せば+20。押した瞬間から利息が育ちます。");
+      sfx.lose();
       return;
     }
     if (!W.pay(1)) return;

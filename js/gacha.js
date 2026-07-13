@@ -90,13 +90,7 @@
       ratesModal.classList.remove("open");
   });
 
-  function renderBtns() {
-    if (W.broke()) {
-      b1.textContent = "借金する +20"; b1.classList.add("debt"); b10.disabled = true;
-    } else {
-      b1.textContent = "単発 3"; b1.classList.remove("debt"); b10.disabled = false;
-    }
-  }
+  function renderBtns() { b10.disabled = W.broke(); }
   document.addEventListener("walletchange", renderBtns);
 
   function cardHTML(c) {
@@ -165,10 +159,8 @@
   function pull(n) {
     if (busy) return;
     if (W.broke()) {
-      const debt = W.borrow();
-      say("<b>+20 融資。</b>ガチャを回すための借金。教科書に載せたい健全さです。累計負債: <b>¥" +
-        (debt * 10000).toLocaleString() + "</b>");
-      sfx.borrow(); return;
+      say("<b>信用ゼロ。</b>ガチャは信用を食べて回ります。上の【<b>借金する</b>】が点滅しています。押せば+20。押した瞬間から利息が育ちます。");
+      sfx.lose(); return;
     }
     const cost = n === 10 ? 25 : 3;
     if (!W.pay(cost)) {
