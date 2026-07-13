@@ -29,16 +29,16 @@
     if (/Chrome\//.test(ua)) return "Chrome " + ua.match(/Chrome\/([\d.]+)/)[1];
     if (/Firefox\//.test(ua)) return "Firefox " + ua.match(/Firefox\/([\d.]+)/)[1];
     if (/Safari\//.test(ua) && /Version\//.test(ua)) return "Safari " + ua.match(/Version\/([\d.]+)/)[1];
-    return "不明なブラウザ（逆に怪しい）";
+    return "不明なブラウザ";
   }
   function osName() {
     const ua = navigator.userAgent;
     if (/Windows NT 10/.test(ua)) return "Windows 10/11";
-    if (/Windows/.test(ua)) return "Windows（レガシー）";
+    if (/Windows/.test(ua)) return "Windows";
     if (/iPhone|iPad/.test(ua)) return "iOS";
     if (/Android/.test(ua)) return "Android " + (ua.match(/Android ([\d.]+)/) || [,"?"])[1];
     if (/Mac OS X/.test(ua)) return "macOS";
-    if (/Linux/.test(ua)) return "Linux（こだわりを感じます）";
+    if (/Linux/.test(ua)) return "Linux";
     return REDACT;
   }
   function gpuName() {
@@ -47,7 +47,7 @@
       const gl = c.getContext("webgl") || c.getContext("experimental-webgl");
       const ext = gl.getExtension("WEBGL_debug_renderer_info");
       return esc(gl.getParameter(ext.UNMASKED_RENDERER_WEBGL));
-    } catch (e) { return REDACT + "（隠しましたね？）"; }
+    } catch (e) { return REDACT; }
   }
   function fingerprint() {
     try {
@@ -100,32 +100,30 @@
     fetch("https://ipapi.co/json/").then(r => r.json()).then(j => {
       ipEl.textContent = j.ip || REDACT;
       geoEl.textContent = (j.country_name || "?") + " " + (j.region || "") + " " + (j.city || "");
-      geoEl.textContent += "（駅までは特定できませんでした。）";
       ispEl.textContent = j.org || REDACT;
     }).catch(() => {
       fetch("https://api.ipify.org?format=json").then(r => r.json())
-        .then(j => { ipEl.textContent = j.ip; geoEl.textContent = REDACT + "（取得失敗。運が良い）"; ispEl.textContent = REDACT; })
-        .catch(() => { ipEl.textContent = REDACT + "（ブロック検出。やりますね）"; geoEl.textContent = "—"; ispEl.textContent = "—"; });
+        .then(j => { ipEl.textContent = j.ip; geoEl.textContent = REDACT; ispEl.textContent = REDACT; })
+        .catch(() => { ipEl.textContent = REDACT; geoEl.textContent = "—"; ispEl.textContent = "—"; });
     });
     row(sId, "ブラウザ", browserName());
     row(sId, "OS", osName());
     row(sId, "言語設定", esc((navigator.languages || [navigator.language]).join(", ")));
-    row(sId, "タイムゾーン", Intl.DateTimeFormat().resolvedOptions().timeZone + "（生活圏、把握しました）");
-    row(sId, "流入経路", document.referrer ? esc(document.referrer) : "直接アクセス（ブックマーク？常連ですね）");
+    row(sId, "タイムゾーン", Intl.DateTimeFormat().resolvedOptions().timeZone);
+    row(sId, "流入経路", document.referrer ? esc(document.referrer) : "直接アクセス");
 
     /* --- 端末 --- */
     row(sHw, "画面解像度", screen.width + "×" + screen.height + " / 表示領域 " + innerWidth + "×" + innerHeight);
-    row(sHw, "ピクセル比", devicePixelRatio + "x（" + (devicePixelRatio >= 2 ? "良い画面をお使いで" : "実用主義ですね") + "）");
+    row(sHw, "ピクセル比", devicePixelRatio + "x");
     row(sHw, "CPU論理コア", (navigator.hardwareConcurrency || "?") + "コア");
-    row(sHw, "搭載メモリ", navigator.deviceMemory ? "約" + navigator.deviceMemory + "GB以上（足りてますか？）" : REDACT + "（非対応ブラウザ）");
+    row(sHw, "搭載メモリ", navigator.deviceMemory ? "約" + navigator.deviceMemory + "GB以上" : REDACT);
     row(sHw, "GPU", gpuName());
-    row(sHw, "タッチ操作", (navigator.maxTouchPoints > 0 ? "対応（" + navigator.maxTouchPoints + "点）" : "非対応"));
-    const batEl = row(sHw, "バッテリー", REDACT + "（非公開設定）");
+    row(sHw, "タッチ操作", (navigator.maxTouchPoints > 0 ? "対応 " + navigator.maxTouchPoints + "点" : "非対応"));
+    const batEl = row(sHw, "バッテリー", REDACT);
     if (navigator.getBattery) navigator.getBattery().then(b => {
       const upd = () => {
         const p = Math.round(b.level * 100);
-        batEl.textContent = p + "%" + (b.charging ? "・充電中" : "") +
-          (p <= 20 && !b.charging ? "（そろそろ現実に戻る時間です）" : "");
+        batEl.textContent = p + "%" + (b.charging ? "・充電中" : "");
       };
       upd(); b.addEventListener("levelchange", upd); b.addEventListener("chargingchange", upd);
     }).catch(() => {});
@@ -133,7 +131,7 @@
     if (navigator.storage && navigator.storage.estimate) {
       navigator.storage.estimate().then(e => {
         stEl.textContent = "当サイト使用 " + Math.round((e.usage || 0) / 1024) + "KB / 割当 " +
-          Math.round((e.quota || 0) / 1073741824) + "GB（負債の保存に使っています）";
+          Math.round((e.quota || 0) / 1073741824) + "GB";
       }).catch(() => stEl.textContent = REDACT);
     } else stEl.textContent = REDACT;
 
@@ -141,14 +139,14 @@
     const con = navigator.connection || {};
     row(sEnv, "回線品質", con.effectiveType
       ? con.effectiveType + " / 下り推定 " + (con.downlink || "?") + "Mbps / 遅延 " + (con.rtt || "?") + "ms"
-      : REDACT + "（非対応ブラウザ）");
-    row(sEnv, "接続状態", navigator.onLine ? "オンライン（常時接続、依存の第一歩）" : "オフライン");
-    row(sEnv, "Cookie", navigator.cookieEnabled ? "許可（皆そうです）" : "拒否（意志を感じる）");
-    row(sEnv, "追跡拒否信号", navigator.doNotTrack === "1" ? "送信中（尊重するかは相手の気分次第です）" : "未送信");
-    row(sEnv, "配色設定", matchMedia("(prefers-color-scheme: dark)").matches ? "ダークモード（同志）" : "ライトモード（眩しくないですか）");
+      : REDACT);
+    row(sEnv, "接続状態", navigator.onLine ? "オンライン" : "オフライン");
+    row(sEnv, "Cookie", navigator.cookieEnabled ? "許可" : "拒否");
+    row(sEnv, "追跡拒否信号", navigator.doNotTrack === "1" ? "送信中" : "未送信");
+    row(sEnv, "配色設定", matchMedia("(prefers-color-scheme: dark)").matches ? "ダークモード（同志）" : "ライトモード");
     row(sEnv, "アニメ削減設定", matchMedia("(prefers-reduced-motion: reduce)").matches ? "有効" : "無効");
-    row(sEnv, "タブ履歴の深さ", history.length + "ページ（このタブの行動履歴です）");
-    row(sEnv, "現地時刻", new Date().toLocaleString("ja-JP") + (new Date().getHours() >= 1 && new Date().getHours() <= 4 ? "（こんな時間に何を？）" : ""));
+    row(sEnv, "タブ履歴の深さ", history.length + "ページ");
+    row(sEnv, "現地時刻", new Date().toLocaleString("ja-JP"));
 
     /* --- 行動記録 (live) --- */
     const tEl = row(sBe, "滞在時間", "0秒", "live");
@@ -157,18 +155,17 @@
     const kEl = row(sBe, "キー入力回数", "0", "live");
     const scEl = row(sBe, "最深スクロール", "0%", "live");
     const awEl = row(sBe, "離席・現実逃避", "0回", "live");
-    row(sBe, "累計訪問", visits + "回目" + (visits >= 5 ? "（もう住民票を移しては？）" : ""));
-    row(sBe, "端末指紋ID", fingerprint() + "（あなたのブラウザ、世界でほぼ一台です）");
+    row(sBe, "累計訪問", visits + "回目");
+    row(sBe, "端末指紋ID", fingerprint());
     const t0 = performance.now();
     setInterval(() => {
       const s = Math.floor((performance.now() - t0) / 1000);
-      tEl.textContent = (s >= 60 ? Math.floor(s / 60) + "分" : "") + (s % 60) + "秒" +
-        (s > 300 ? "（そろそろ生産的なことを）" : "");
+      tEl.textContent = (s >= 60 ? Math.floor(s / 60) + "分" : "") + (s % 60) + "秒";
       dEl.textContent = (B.dist / 3780).toFixed(2) + "m";
       cEl.textContent = B.clicks + "回";
       kEl.textContent = B.keys + "回";
       scEl.textContent = B.scroll + "%";
-      awEl.textContent = B.away + "回" + (B.away >= 3 ? "（戻ってきてしまうんですね）" : "");
+      awEl.textContent = B.away + "回";
     }, 1000);
 
     /* --- 資産状況 (casino連動) --- */
@@ -178,9 +175,9 @@
       try { c = JSON.parse(localStorage.getItem("casino77") || "{}"); } catch (e) {}
       row(sAs, "社会的信用", (c.credit != null ? c.credit : "未開設") + "");
       row(sAs, "徒労回数", (c.attempts || 0) + "回");
-      row(sAs, "累計負債", c.debt > 0 ? "¥" + (c.debt * 10000).toLocaleString() + "（利息は元気に成長中）" : "なし（今のところ）");
-      row(sAs, "依存傾向", (c.attempts || 0) >= 50 ? "検出（GAMEタブの滞在が長すぎます）"
-        : (c.attempts || 0) >= 10 ? "経過観察中" : "未検出（時間の問題です）");
+      row(sAs, "累計負債", c.debt > 0 ? "¥" + (c.debt * 10000).toLocaleString() : "なし");
+      row(sAs, "依存傾向", (c.attempts || 0) >= 50 ? "検出"
+        : (c.attempts || 0) >= 10 ? "経過観察中" : "未検出");
     }
     assets();
     document.addEventListener("walletchange", assets);
@@ -196,13 +193,13 @@
           const h = await navigator.userAgentData.getHighEntropyValues([
             "model", "platform", "platformVersion", "architecture", "bitness",
             "uaFullVersion", "fullVersionList", "wow64"]);
-          add("端末モデル名", h.model ? esc(h.model) + "（実機名、出ましたね）" : "（PCは機種名を返しません。スマホなら丸見えです）");
+          add("端末モデル名", h.model ? esc(h.model) : REDACT);
           add("プラットフォーム", esc(h.platform || "?") + " " + esc(h.platformVersion || ""));
           add("CPUアーキテクチャ", esc(h.architecture || "?") + " / " + esc(h.bitness || "?") + "bit");
           add("詳細バージョン", esc((h.fullVersionList || []).map(v => v.brand + " " + v.version).join(" / ") || h.uaFullVersion || "?"));
-        } catch (e) { add("端末モデル名", REDACT + "（拒否されました）"); }
+        } catch (e) { add("端末モデル名", REDACT); }
       } else {
-        add("端末モデル名", REDACT + "（このブラウザは秘匿型。少しだけ良心的です）");
+        add("端末モデル名", REDACT);
       }
 
       /* ローカルIP (WebRTC) */
@@ -215,8 +212,8 @@
           if (!e.candidate) {
             lipEl.classList.remove("live");
             lipEl.innerHTML = found.size
-              ? [...found].join(", ") + "（LAN内での住所です。ルーターの中まで見えました）"
-              : REDACT + "（mDNSで隠蔽済み。近年の数少ない良ニュース）";
+              ? [...found].join(", ")
+              : REDACT;
             pc.close();
             return;
           }
@@ -226,7 +223,7 @@
         await pc.setLocalDescription(await pc.createOffer());
         setTimeout(() => { if (lipEl.classList.contains("live")) {
           lipEl.classList.remove("live");
-          lipEl.innerHTML = found.size ? [...found].join(", ") : REDACT + "（取得できず。運が良い）";
+          lipEl.innerHTML = found.size ? [...found].join(", ") : REDACT;
           try { pc.close(); } catch (e) {}
         } }, 2500);
       } catch (e) { lipEl.classList.remove("live"); lipEl.textContent = REDACT; }
@@ -236,7 +233,7 @@
         try {
           const ds = await navigator.mediaDevices.enumerateDevices();
           const cnt = (k) => ds.filter(d => d.kind === k).length;
-          add("接続カメラ", cnt("videoinput") + "台" + (cnt("videoinput") ? "（今は、見ていません）" : ""));
+          add("接続カメラ", cnt("videoinput") + "台");
           add("接続マイク", cnt("audioinput") + "台");
           add("接続スピーカー", cnt("audiooutput") + "台");
         } catch (e) { add("接続機器", REDACT); }
@@ -264,7 +261,7 @@
           const buf = await ctx.startRendering();
           let sum = 0; const d = buf.getChannelData(0);
           for (let i = 4000; i < 5000; i++) sum += Math.abs(d[i]);
-          add("音声指紋", "0x" + Math.floor(sum * 1e7).toString(16).toUpperCase() + "（音の出し方にも個性が出ます）");
+          add("音声指紋", "0x" + Math.floor(sum * 1e7).toString(16).toUpperCase());
         }
       } catch (e) {}
 
@@ -285,13 +282,13 @@
           return span.offsetWidth !== def[b][0] || span.offsetHeight !== def[b][1];
         }));
         document.body.removeChild(span);
-        add("検出フォント", found.length + "種: " + esc(found.join(", ")) + "（入れたソフトが透けます）");
+        add("検出フォント", found.length + "種: " + esc(found.join(", ")));
       } catch (e) {}
 
       /* 画面詳細 */
       add("色深度", screen.colorDepth + "bit / " + (screen.pixelDepth || screen.colorDepth) + "bit");
       add("画面の向き", (screen.orientation && screen.orientation.type) || "?");
-      add("作業領域", (screen.availWidth || "?") + "×" + (screen.availHeight || "?") + "（タスクバーの高さまで分かります）");
+      add("作業領域", (screen.availWidth || "?") + "×" + (screen.availHeight || "?"));
 
       /* ゲームパッド */
       try {
@@ -310,9 +307,9 @@
             clipEl.innerHTML = "<b>「" + shown + "」</b><br>今コピーしていた物です。パスワードでなかったことを祈ります。";
             window.Casino && window.Casino.fx && window.Casino.fx.shake(false);
           } else {
-            clipEl.textContent = "（空、またはテキスト以外。今回は助かりましたね）";
+            clipEl.textContent = "空、またはテキスト以外";
           }
-        } else { clipEl.classList.remove("live"); clipEl.textContent = REDACT + "（非対応）"; }
+        } else { clipEl.classList.remove("live"); clipEl.textContent = REDACT; }
       } catch (e) {
         clipEl.classList.remove("live");
         clipEl.textContent = "拒否されました。この判断力を、他の場面でも。";
@@ -325,7 +322,7 @@
     (function geolocate() {
       const g = $("#geo-result");
       if (!navigator.geolocation) { g.innerHTML = "この端末は位置情報に非対応です。羨ましい。"; return; }
-      g.innerHTML = "衛星に問い合わせ中…（今、許可ダイアログが出ましたね？あれが最後の砦です）";
+      g.innerHTML = "衛星に問い合わせ中…";
       navigator.geolocation.getCurrentPosition(
         (pos) => {
           const { latitude, longitude, accuracy } = pos.coords;
@@ -371,7 +368,7 @@
               res();
             };
             addEventListener("deviceorientation", onO);
-            setTimeout(() => { if (!done) { done = true; removeEventListener("deviceorientation", onO); add("傾きセンサー", "反応なし（据置型ですか？）"); res(); } }, 1500);
+            setTimeout(() => { if (!done) { done = true; removeEventListener("deviceorientation", onO); add("傾きセンサー", "反応なし"); res(); } }, 1500);
           } catch (e) { add("傾きセンサー", "取得失敗"); res(); }
         });
       }
@@ -398,7 +395,7 @@
       async function xNotif() {
         try {
           const p = await Notification.requestPermission();
-          add("通知許可", p === "granted" ? "許可（いつでも通知を出せます）" : p);
+          add("通知許可", p === "granted" ? "許可" : p);
           if (p === "granted") try { new Notification("SUBJECT FILE", { body: "通知の権限、渡りました。" }); } catch (e) {}
         } catch (e) { add("通知", "失敗"); }
       }
@@ -408,7 +405,7 @@
           if (p !== "granted") { add("在席検知", "拒否されました。"); return; }
           const d = new IdleDetector();
           await d.start({ threshold: 60000 });
-          add("在席状況", "操作:" + d.userState + " / 画面:" + d.screenState + "（見てますよ）");
+          add("在席状況", "操作:" + d.userState + " / 画面:" + d.screenState);
         } catch (e) { add("在席検知", "失敗"); }
       }
       async function xContacts() {
@@ -420,7 +417,7 @@
       function xVoices() {
         try {
           const vs = speechSynthesis.getVoices();
-          if (!vs.length) { add("音声パック", "取得待ち…（もう一度押すと出ます）"); return; }
+          if (!vs.length) { add("音声パック", "取得待ち。もう一度押してください"); return; }
           add("インストール音声", vs.length + "種: " + esc(vs.slice(0, 8).map(v => v.name).join(", ")) + (vs.length > 8 ? " …" : ""));
         } catch (e) { add("音声パック", "取得失敗"); }
       }
