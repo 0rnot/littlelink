@@ -209,7 +209,6 @@
     { id: "gacha", name: "REROLL-∞",     sub: "人生ガチャ" },
     { id: "audit", name: "AUDIT-13",     sub: "人生査定" },
     { id: "pachi", name: "DIGNITY-0",    sub: "尊厳交換機" },
-    { id: "mine",  name: "MINE-25",      sub: "地雷物件ツアー" },
   ];
   let gi = 0;
   const gTitle = $("#g-title"), gIdx = $("#g-idx"), gSub = $("#g-sub");

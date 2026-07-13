@@ -27,7 +27,7 @@
     if (location.hash !== "#game" && !sessionStorage.getItem("lured")) {
       setTimeout(() => {
         if (document.querySelector("#panel-links.active") && window.showToast) {
-          showToast("▶ GAME: 5機種稼働中。胴元がお待ちしています。");
+          showToast("▶ GAME: 4機種稼働中。胴元がお待ちしています。");
           sessionStorage.setItem("lured", "1");
         }
       }, 7000);
