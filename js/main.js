@@ -57,18 +57,11 @@
   (() => {
     const el = document.querySelector(".tagline");
     if (!el) return;
-    const PHRASES = [
-      "High Tech, Low Life",
-      "Insert Credit To Live",
-      "Dreams Sold Separately",
-      "現世 v0.9 (beta)",
-      "Stay Poor, Stay Punk",
-      "Error 402: Payment Required",
-    ];
+    const PHRASE = "High Tech, Low Life";
     const JUNK = "!<>-_\\/[]{}=+*^?#%&@$01";
     const rj = () => JUNK[Math.random() * JUNK.length | 0];
     const rm = matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (rm) { el.textContent = PHRASES[0]; return; }
+    if (rm) { el.textContent = PHRASE; return; }
 
     let timer = null;
     function decode(target, done) {
@@ -86,15 +79,7 @@
         if (solved === target.length) { clearInterval(timer); if (done) done(); }
       }, 40);
     }
-    let idx = 0;
-    function cycle() {
-      decode(PHRASES[idx], () => {
-        const hold = idx === 0 ? 12000 : 5000;        // signature phrase lingers
-        idx = (idx + 1) % PHRASES.length;
-        setTimeout(cycle, hold);
-      });
-    }
-    setTimeout(cycle, 400);
+    setTimeout(() => decode(PHRASE), 400);   // decode once, then stay
     document.addEventListener("visibilitychange", () => {
       if (document.hidden) clearInterval(timer);
     });
