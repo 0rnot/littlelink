@@ -214,14 +214,17 @@ h1.name::after  { animation: gl-b 6s step-end infinite; }
 
 .tagline {
   color: var(--fg-dim); margin: .7rem auto 0;
-  overflow: hidden; white-space: nowrap; width: 0;
-  border-right: .6em solid var(--fg-dim);
+  white-space: nowrap;
   font-size: .85rem; letter-spacing: .12em;
-  animation: typing 1.9s steps(19,end) .4s forwards, caret .8s step-end infinite;
   display: inline-block; max-width: 100%;
+  min-height: 1.4em;
 }
-@keyframes typing { to { width: calc(19ch + 19 * .12em); } }
-@keyframes caret { 50% { border-color: transparent; } }
+.tagline::after {
+  content: "\2588"; margin-left: .15em; color: var(--fg-dim);
+  animation: caret .8s step-end infinite;
+}
+.tagline .tg-junk { color: var(--fg-faint); }
+@keyframes caret { 50% { opacity: 0; } }
 
 /* ---------- link buttons ---------- */
 .stack { display: grid; gap: .65rem; }
@@ -426,6 +429,7 @@ footer .sys { text-align: right; }
 /* ---------- mobile ---------- */
 @media (max-width: 480px) {
   body { background-size: 24px 24px, 24px 24px, auto; }
+  .tagline { font-size: .72rem; }
   .frame { inset: 4px; }
   h1.name { font-size: 1.35rem; }
   .reel { height: 108px; }
@@ -441,7 +445,7 @@ footer .sys { text-align: right; }
 /* ---------- reduced motion ---------- */
 @media (prefers-reduced-motion: reduce) {
   .avatar, h1.name::before, h1.name::after, .fx-flicker { animation: none !important; }
-  .tagline { animation: none; width: auto; border-right: 0; }
+  .tagline::after { animation: none; }
   .panel.active { animation: none; }
   #fx-rain { display: none; }
 }

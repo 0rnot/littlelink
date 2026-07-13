@@ -53,6 +53,53 @@
     }
   }, 1000);
 
+  /* ---------- tagline: decode/scramble rotation ---------- */
+  (() => {
+    const el = document.querySelector(".tagline");
+    if (!el) return;
+    const PHRASES = [
+      "High Tech, Low Life",
+      "Insert Credit To Live",
+      "Dreams Sold Separately",
+      "現世 v0.9 (beta)",
+      "Stay Poor, Stay Punk",
+      "Error 402: Payment Required",
+    ];
+    const JUNK = "!<>-_\\/[]{}=+*^?#%&@$01";
+    const rj = () => JUNK[Math.random() * JUNK.length | 0];
+    const rm = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (rm) { el.textContent = PHRASES[0]; return; }
+
+    let timer = null;
+    function decode(target, done) {
+      let frame = 0;
+      clearInterval(timer);
+      timer = setInterval(() => {
+        let out = "", solved = 0;
+        for (let i = 0; i < target.length; i++) {
+          const reveal = frame >= i * 2 + 6;          // resolve left -> right
+          if (reveal) { out += target[i]; solved++; }
+          else if (frame >= i * 2 - 8) out += '<span class="tg-junk">' + rj() + "</span>";
+        }
+        el.innerHTML = out;
+        frame++;
+        if (solved === target.length) { clearInterval(timer); if (done) done(); }
+      }, 40);
+    }
+    let idx = 0;
+    function cycle() {
+      decode(PHRASES[idx], () => {
+        const hold = idx === 0 ? 12000 : 5000;        // signature phrase lingers
+        idx = (idx + 1) % PHRASES.length;
+        setTimeout(cycle, hold);
+      });
+    }
+    setTimeout(cycle, 400);
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) clearInterval(timer);
+    });
+  })();
+
   /* ---------- toast ---------- */
   const toast = document.getElementById("toast");
   let toastTimer;
