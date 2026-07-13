@@ -184,20 +184,9 @@
     assets();
     document.addEventListener("walletchange", assets);
 
-    /* --- その他情報（深層スキャン: 要ユーザー操作） --- */
-    const deepBtn = $("#btn-deep");
-    let deepDone = false;
-    deepBtn.addEventListener("click", async () => {
-      if (deepDone) return;
-      deepDone = true;
-      deepBtn.disabled = true;
-      deepBtn.textContent = "スキャン中…";
+    /* --- その他情報（深層スキャン: revealクリックのユーザー操作を継承） --- */
+    (async function deepScan() {
       const host = $("#ws-deep");
-      const head = $("#deep-head");
-      head.style.display = "block";
-      host.style.display = "grid";
-      window.Casino && window.Casino.sfx && window.Casino.sfx.flip();
-
       const add = (k, v, cls) => row(host, k, v, cls);
 
       /* 端末モデル・詳細UA (Client Hints 高エントロピー) */
@@ -328,15 +317,14 @@
         clipEl.textContent = "拒否されました。この判断力を、他の場面でも。";
       }
 
-      deepBtn.textContent = "スキャン完了 // これでも氷山の一角です";
-      if (window.showToast) showToast("深層スキャン完了。まだ黙って取れる情報も残っています。");
-    });
+      if (window.showToast) showToast("スキャン完了。まだ黙って取れる情報も残っています。");
+    })();
 
-    /* --- 位置情報開示 --- */
-    $("#btn-geo").addEventListener("click", () => {
+    /* --- 位置情報 (same user gesture as the reveal click) --- */
+    (function geolocate() {
       const g = $("#geo-result");
       if (!navigator.geolocation) { g.innerHTML = "この端末は位置情報に非対応です。羨ましい。"; return; }
-      g.innerHTML = "衛星に問い合わせ中…（許可を求めるダイアログ、出ましたね？）";
+      g.innerHTML = "衛星に問い合わせ中…（今、許可ダイアログが出ましたね？あれが最後の砦です）";
       navigator.geolocation.getCurrentPosition(
         (pos) => {
           const { latitude, longitude, accuracy } = pos.coords;
@@ -350,7 +338,7 @@
             : "取得失敗。衛星もあなたを見失ったようです。";
         },
         { timeout: 10000 });
-    });
+    })();
 
     /* --- 削除ボタン --- */
     $("#btn-wipe").addEventListener("click", () => {
@@ -365,6 +353,12 @@
     });
   }
 
-  document.addEventListener("panelchange", (e) => { if (e.detail === "watch") init(); });
-  if (location.hash === "#watch") init();
+  const revealBtn = $("#btn-reveal");
+  if (revealBtn) revealBtn.addEventListener("click", () => {
+    $("#watch-body").hidden = false;
+    revealBtn.textContent = "開示済み // 手遅れ";
+    revealBtn.disabled = true;
+    window.Casino && window.Casino.sfx.flip();
+    init();
+  });
 })();
