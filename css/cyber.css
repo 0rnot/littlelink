@@ -296,6 +296,8 @@ footer {
   display: flex; justify-content: space-between; gap: 1rem;
 }
 footer .sys { text-align: right; }
+#visit-count { text-align: center; white-space: nowrap; }
+#visit-count b { color: var(--fg); font-weight: 400; }
 
 /* ---------- toast ---------- */
 .toast {
