@@ -133,15 +133,29 @@
     <section class="panel" id="panel-game" role="tabpanel" aria-label="game">
       <p class="sect">amusement // rigged by design</p>
 
-      <div class="slot">
-        <h2 class="slot-title">Sisyphus&#8209;77</h2>
-        <p class="slot-sub">資本主義体験装置 — 夢と税金のスロットマシン。胴元は常に勝ちます。</p>
-
+      <!-- shared wallet: 全機種共通 -->
+      <div class="wallet-bar">
         <div class="slot-meters">
           <div class="meter"><span class="k">社会的信用</span><span class="v" id="m-credit">20</span></div>
-          <div class="meter"><span class="k">労働回数</span><span class="v" id="m-spins">0</span></div>
+          <div class="meter"><span class="k">徒労回数</span><span class="v" id="m-attempts">0</span></div>
           <div class="meter"><span class="k">累計負債</span><span class="v" id="m-debt">—</span></div>
         </div>
+        <button class="btn-mute" id="btn-mute" type="button" aria-label="サウンド切替">SND</button>
+      </div>
+      <p class="wallet-fine">※ 信用・徒労・負債は全機種で共有されます。どこで失っても同じ財布です。現実と同じ。</p>
+
+      <nav class="gtabs" role="tablist" aria-label="games">
+        <button class="gtab" role="tab" data-game="slot" aria-selected="true">SLOT</button>
+        <button class="gtab" role="tab" data-game="gacha" aria-selected="false">GACHA</button>
+        <button class="gtab" role="tab" data-game="audit" aria-selected="false">AUDIT</button>
+        <button class="gtab" role="tab" data-game="pachi" aria-selected="false">PACHI</button>
+        <button class="gtab" role="tab" data-game="rank" aria-selected="false">RANK</button>
+      </nav>
+
+      <!-- ===== SLOT ===== -->
+      <div class="game slot active" id="g-slot">
+        <h2 class="slot-title">Sisyphus&#8209;77</h2>
+        <p class="slot-sub">資本主義体験装置 — 夢と税金のスロットマシン。胴元は常に勝ちます。</p>
 
         <div class="reels" aria-label="スロットリール">
           <div class="reel"><div class="strip"></div></div>
@@ -155,7 +169,6 @@
 
         <div class="slot-actions">
           <button class="btn-spin" id="btn-spin" type="button">SPIN // 1消費</button>
-          <button class="btn-mute" id="btn-mute" type="button" aria-label="サウンド切替">SND</button>
         </div>
 
         <details class="paytable">
@@ -172,11 +185,120 @@
 
         <p class="slot-fine">
           ※ 本機に換金機能はありません。射幸心のみを煽ります。<br>
-          ※ 確率は公開していますが、読まないのはあなたの自由です。現実の規約と同じです。<br>
+          ※ リーチ演出中に分泌される脳内物質は当社の売上として計上されます。<br>
           ※ 「借金」機能で信用は回復しますが、あなたの何かが失われます。
         </p>
       </div>
+
+      <!-- ===== GACHA ===== -->
+      <div class="game slot" id="g-gacha">
+        <h2 class="slot-title">Reroll&#8209;∞</h2>
+        <p class="slot-sub">人生ガチャ — 転生には対応していません。今回の人生でお楽しみください。</p>
+
+        <div class="gacha-grid" id="gacha-grid" aria-live="polite"></div>
+
+        <p class="slot-msg" id="gacha-msg">
+          排出率は公開済み。読まずに引くのは、契約書にサインする速度と同じです。
+        </p>
+
+        <div class="slot-actions">
+          <button class="btn-spin" id="btn-gacha1" type="button">1回 // 3消費</button>
+          <button class="btn-spin alt" id="btn-gacha10" type="button">10連 // 25消費</button>
+        </div>
+
+        <details class="paytable">
+          <summary>排出率 // RATES（天井なし・床もなし）</summary>
+          <table>
+            <tr><td>UR 0.5%</td><td>上級国民の孫</td><td>+100</td></tr>
+            <tr><td>SSR 3.5%</td><td>実家が太い / 顔がいい</td><td>+35〜40</td></tr>
+            <tr><td>SR 14%</td><td>コネ内定 / 宝くじ3等</td><td>+10〜12</td></tr>
+            <tr><td>R 35%</td><td>健康・同僚（期間限定）</td><td>+1〜2</td></tr>
+            <tr><td>N 47%</td><td>現状維持〜上司ガチャ失敗</td><td>0〜-5</td></tr>
+          </table>
+        </details>
+
+        <p class="slot-fine">
+          ※ 10連には「R以上1枚保証」が付きます。統計的には何も変わりませんが、安心はします。<br>
+          ※ 親ガチャの再抽選は承っておりません。窓口もありません。
+        </p>
+      </div>
+
+      <!-- ===== AUDIT (HIGH-LOW) ===== -->
+      <div class="game slot" id="g-audit">
+        <h2 class="slot-title">Audit&#8209;13</h2>
+        <p class="slot-sub">人生査定 — 上か下か。人生と違い、選択肢が明示されるだけ良心的です。</p>
+
+        <div class="hl-table">
+          <div class="hl-cardbox"><span class="hl-lbl">現在</span><div class="hl-card" id="hl-card"></div></div>
+          <div class="hl-vs">VS</div>
+          <div class="hl-cardbox"><span class="hl-lbl">次</span><div class="hl-card" id="hl-next"></div></div>
+        </div>
+
+        <div class="hl-meters">
+          <div class="meter"><span class="k">ポット</span><span class="v" id="hl-pot">0</span></div>
+          <div class="meter"><span class="k">連続査定</span><span class="v" id="hl-streak">0</span></div>
+        </div>
+
+        <p class="slot-msg" id="hl-msg">
+          査定料2を払い、次のカードが上か下かを当ててください。外せば没収。査定とはそういうものです。
+        </p>
+
+        <div class="slot-actions">
+          <button class="btn-spin" id="btn-hl-start" type="button">査定開始 // 2消費</button>
+        </div>
+        <div class="slot-actions hl-choices">
+          <button class="btn-spin alt" id="btn-high" type="button" disabled>▲ HIGH</button>
+          <button class="btn-spin alt" id="btn-low" type="button" disabled>▼ LOW</button>
+          <button class="btn-spin alt" id="btn-hl-out" type="button" disabled>撤退 ⏏</button>
+        </div>
+
+        <p class="slot-fine">
+          ※ 連続成功でポットが増えます。欲をかいた瞬間の顔は、台のカメラで記録されています（嘘です。今のところ）。<br>
+          ※ 「撤退」は負けではありません。ですが周囲はそう見ません。
+        </p>
+      </div>
+
+      <!-- ===== PACHINKO ===== -->
+      <div class="game slot" id="g-pachi">
+        <h2 class="slot-title">Dignity&#8209;0</h2>
+        <p class="slot-sub">尊厳交換機 — 玉を打つと重力が全てを決めます。あなたの意思は装飾です。</p>
+
+        <div class="pachi-wrap">
+          <canvas id="pachi-canvas" width="320" height="430" aria-label="パチンコ盤面"></canvas>
+        </div>
+
+        <p class="slot-msg" id="pachi-msg">
+          盤面タップでも発射できます。指の運動は消費カロリーに計上されません。
+        </p>
+
+        <div class="slot-actions">
+          <button class="btn-spin" id="btn-pachi" type="button">打つ // 1消費</button>
+        </div>
+
+        <p class="slot-fine">
+          ※ 中央入賞 +15。それ以外の穴の名称は「没収」です。飾りではありません。<br>
+          ※ 出玉の交換所はありません。景品もありません。あるのは既視感だけです。<br>
+          ※ 同時発射は6玉まで。人生の手駒より多いですね。
+        </p>
+      </div>
+
+      <!-- ===== RANKING ===== -->
+      <div class="game slot" id="g-rank">
+        <h2 class="slot-title">Hierarchy</h2>
+        <p class="slot-sub">社会的信用ランキング — 集計方法は非公開。現実のランキングも大体そうです。</p>
+
+        <table class="rank-table">
+          <thead><tr><th>#</th><th>名義</th><th>信用</th><th>備考</th></tr></thead>
+          <tbody id="rank-body"></tbody>
+        </table>
+
+        <p class="slot-fine">
+          ※ 本ランキングは操作されています。異議がある場合は、より多く負けてください。<br>
+          ※ 「あなた」の順位は全機種の戦績と連動します。上を見ても仕方ない顔ぶれですが。
+        </p>
+      </div>
     </section>
+
   </main>
 
   <footer>
@@ -187,6 +309,10 @@
   <div class="toast" id="toast" role="status"></div>
 
   <script src="js/main.js"></script>
+  <script src="js/core.js"></script>
   <script src="js/slot.js"></script>
+  <script src="js/gacha.js"></script>
+  <script src="js/audit.js"></script>
+  <script src="js/pachi.js"></script>
 </body>
 </html>

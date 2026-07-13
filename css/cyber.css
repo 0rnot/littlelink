@@ -444,3 +444,208 @@ footer .sys { text-align: right; }
   .panel.active { animation: none; }
   #fx-rain { display: none; }
 }
+
+/* ============================================================
+   v2: shared wallet / game tabs / FX / gacha / high-low /
+       pachinko / ranking
+   ============================================================ */
+
+/* ---------- wallet bar (shared) ---------- */
+.wallet-bar { display: flex; gap: .45rem; align-items: stretch; }
+.wallet-bar .slot-meters { flex: 1; margin-bottom: 0; }
+.wallet-fine {
+  margin: .4rem 0 1rem; font-size: .55rem; color: var(--fg-faint); letter-spacing: .06em;
+}
+
+/* ---------- game sub-tabs ---------- */
+.gtabs {
+  display: flex; margin-bottom: 1rem;
+  border: 1px solid var(--line); background: var(--bg-panel);
+  overflow-x: auto; scrollbar-width: none;
+}
+.gtabs::-webkit-scrollbar { display: none; }
+.gtab {
+  flex: 1; appearance: none; background: none; border: 0;
+  border-right: 1px solid var(--line);
+  color: var(--fg-dim); font: inherit; font-size: .7rem; letter-spacing: .18em;
+  padding: .7rem .4rem; min-height: 44px; cursor: pointer; white-space: nowrap;
+}
+.gtab:last-child { border-right: 0; }
+.gtab:hover { color: var(--fg); background: rgba(255,255,255,.04); }
+.gtab[aria-selected="true"] {
+  background: var(--white); color: #000; font-weight: 700;
+}
+
+.game { display: none; }
+.game.active { display: block; animation: panel-in .22s steps(5) both; }
+
+/* alt (secondary) action buttons */
+.btn-spin.alt { background: var(--bg-panel); color: var(--fg); border-color: var(--line-bright); }
+.btn-spin.alt:hover { filter: none; background: var(--white); color: #000; }
+.btn-spin.alt:disabled { filter: none; opacity: .35; cursor: not-allowed; }
+
+/* ---------- WIN FX layer ---------- */
+#fx-layer { position: fixed; inset: 0; z-index: 150; pointer-events: none; }
+.fx-flash {
+  position: absolute; inset: 0; background: #fff; opacity: 0;
+}
+.fx-flash.go { animation: winflash .5s steps(6) both; }
+.fx-flash.go.strong { animation: winflash-strong .8s steps(8) both; }
+@keyframes winflash { 0% { opacity: .55; } 100% { opacity: 0; } }
+@keyframes winflash-strong {
+  0% { opacity: .95; } 18% { opacity: .1; } 30% { opacity: .7; }
+  45% { opacity: .05; } 60% { opacity: .35; } 100% { opacity: 0; }
+}
+.fx-particles { position: absolute; inset: 0; width: 100%; height: 100%; }
+.fx-bigtext {
+  position: absolute; inset: 0; display: grid; place-items: center;
+  text-align: center; opacity: 0; font-family: var(--mono);
+}
+.fx-bigtext.go { animation: bigtext-in 1.6s steps(10) both; }
+@keyframes bigtext-in {
+  0% { opacity: 0; transform: scale(.6); }
+  8% { opacity: 1; transform: scale(1.12); }
+  16% { transform: scale(1); }
+  80% { opacity: 1; }
+  100% { opacity: 0; transform: scale(1.04); }
+}
+.fx-bigtext span {
+  display: block; color: var(--white);
+  font-size: clamp(1.6rem, 8vw, 3.2rem); font-weight: 700; letter-spacing: .3em;
+  text-shadow: 0 0 18px rgba(255,255,255,.8), 0 0 60px rgba(255,255,255,.4);
+  text-transform: uppercase;
+}
+.fx-bigtext span.jp { font-size: clamp(2rem, 10vw, 4.2rem); }
+.fx-bigtext b {
+  display: block; margin-top: .3rem;
+  color: #000; background: var(--white); padding: .1em .5em;
+  font-size: clamp(1.1rem, 5vw, 1.8rem); letter-spacing: .2em;
+  box-shadow: 0 0 24px rgba(255,255,255,.7);
+}
+.fx-bigtext .glitch { position: relative; animation: bigglitch .18s steps(2) 6; }
+@keyframes bigglitch {
+  0% { transform: translate(0); } 25% { transform: translate(-3px, 2px) skewX(-4deg); }
+  50% { transform: translate(2px, -2px); } 100% { transform: translate(0); }
+}
+
+/* screen shake */
+body.shake { animation: shk .45s steps(12) both; }
+body.shake-hard { animation: shk-hard .6s steps(16) both; }
+@keyframes shk {
+  10% { transform: translate(-3px, 2px); } 30% { transform: translate(4px, -2px); }
+  50% { transform: translate(-2px, -3px); } 70% { transform: translate(3px, 1px); }
+  100% { transform: none; }
+}
+@keyframes shk-hard {
+  8% { transform: translate(-7px, 4px) rotate(-.4deg); } 24% { transform: translate(8px, -5px) rotate(.3deg); }
+  40% { transform: translate(-6px, -4px); } 56% { transform: translate(6px, 5px) rotate(-.3deg); }
+  72% { transform: translate(-4px, 2px); } 88% { transform: translate(3px, -2px); }
+  100% { transform: none; }
+}
+html.invert { filter: invert(1); }
+
+/* payout count-up in message */
+.payup { color: var(--white); font-size: 1.05rem; letter-spacing: .1em; }
+
+/* reach state on 3rd reel */
+.reel.reach { animation: reachpulse .7s steps(4) infinite; }
+@keyframes reachpulse {
+  0%, 100% { box-shadow: inset 0 0 0 1px var(--line-bright); }
+  50% { box-shadow: inset 0 0 0 2px var(--white), 0 0 22px rgba(255,255,255,.55); }
+}
+.reach-txt { color: var(--white); animation: blink 1s steps(2,start) infinite; }
+
+/* ---------- GACHA ---------- */
+.gacha-grid {
+  display: grid; grid-template-columns: repeat(5, 1fr); gap: .35rem;
+  min-height: 86px; margin-bottom: .9rem;
+}
+.gcard {
+  border: 1px solid var(--line); background: #000;
+  padding: .45rem .25rem; text-align: center;
+  display: flex; flex-direction: column; gap: .15rem;
+  animation: cardflip .3s steps(5) both;
+}
+@keyframes cardflip {
+  from { transform: rotateY(90deg) scale(.7); opacity: 0; }
+  to   { transform: none; opacity: 1; }
+}
+.gcard .gr { font-size: .6rem; font-weight: 700; letter-spacing: .2em; color: var(--fg-dim); }
+.gcard .gn { font-size: .58rem; color: var(--fg); line-height: 1.3; min-height: 2.4em; display:flex; align-items:center; justify-content:center; }
+.gcard .gp { font-size: .8rem; font-weight: 700; color: var(--fg-dim); }
+.gcard .gnote { font-size: .48rem; color: var(--fg-faint); }
+.gcard.r-SR { border-color: var(--line-bright); }
+.gcard.r-SR .gr, .gcard.r-SR .gp { color: var(--fg); }
+.gcard.r-SSR { border-color: var(--white); box-shadow: 0 0 10px rgba(255,255,255,.35); }
+.gcard.r-SSR .gr, .gcard.r-SSR .gp { color: var(--white); }
+.gcard.r-UR {
+  border-color: var(--white); background: var(--white);
+  box-shadow: 0 0 22px rgba(255,255,255,.8);
+  animation: cardflip .3s steps(5) both, urstrobe .5s steps(2) 4;
+}
+.gcard.r-UR .gr, .gcard.r-UR .gn, .gcard.r-UR .gp, .gcard.r-UR .gnote { color: #000; }
+@keyframes urstrobe { 50% { filter: invert(1); } }
+
+/* ---------- AUDIT (high-low) ---------- */
+.hl-table {
+  display: flex; align-items: center; justify-content: center; gap: 1rem;
+  margin-bottom: .9rem;
+}
+.hl-cardbox { text-align: center; }
+.hl-lbl { display: block; font-size: .55rem; color: var(--fg-faint); letter-spacing: .25em; margin-bottom: .35rem; }
+.hl-card {
+  width: 86px; height: 118px; border: 1px solid var(--line-bright); background: #000;
+  display: grid; place-items: center; align-content: center; gap: .2rem;
+  position: relative;
+}
+.hl-card::before {
+  content: ""; position: absolute; inset: 4px; border: 1px dashed var(--line);
+  pointer-events: none;
+}
+.hl-card .hv { font-size: 2.2rem; font-weight: 700; color: var(--white); }
+.hl-card .hs { font-size: 1rem; color: var(--fg-dim); }
+.hl-card.flip { animation: cardflip .35s steps(6) both; }
+.hl-vs { color: var(--fg-faint); font-size: .7rem; letter-spacing: .3em; }
+.hl-meters { display: grid; grid-template-columns: 1fr 1fr; gap: .45rem; margin-bottom: .9rem; }
+.hl-choices { margin-top: .5rem; }
+.hl-choices .btn-spin { font-size: .8rem; letter-spacing: .15em; }
+
+/* ---------- PACHINKO ---------- */
+.pachi-wrap { display: flex; justify-content: center; margin-bottom: .9rem; }
+#pachi-canvas {
+  border: 1px solid var(--line-bright);
+  background:
+    repeating-linear-gradient(0deg, rgba(255,255,255,.02) 0 1px, transparent 1px 4px), #030303;
+  touch-action: manipulation; cursor: pointer;
+  max-width: 100%;
+}
+
+/* ---------- RANKING ---------- */
+.rank-table { width: 100%; border-collapse: collapse; font-size: .68rem; margin-bottom: .5rem; }
+.rank-table th {
+  text-align: left; color: var(--fg-faint); font-weight: 400; letter-spacing: .2em;
+  font-size: .55rem; border-bottom: 1px solid var(--line-bright); padding: .35rem .45rem;
+}
+.rank-table td { border-bottom: 1px solid var(--line); padding: .42rem .45rem; color: var(--fg-dim); }
+.rank-table td:nth-child(3) { text-align: right; color: var(--fg); font-weight: 700; white-space: nowrap; }
+.rank-table td:nth-child(4) { font-size: .58rem; color: var(--fg-faint); }
+.rank-table tr.me td {
+  background: var(--white); color: #000 !important;
+  font-weight: 700;
+}
+.rank-table tr.me td:nth-child(4) { color: #333 !important; font-weight: 400; }
+
+/* ---------- mobile tweaks (v2) ---------- */
+@media (max-width: 480px) {
+  .gacha-grid { grid-template-columns: repeat(3, 1fr); }
+  .gcard .gn { font-size: .55rem; }
+  .hl-card { width: 72px; height: 100px; }
+  .gtab { font-size: .62rem; letter-spacing: .1em; }
+  .fx-bigtext b { font-size: 1.1rem; }
+}
+
+/* reduced motion (v2) */
+@media (prefers-reduced-motion: reduce) {
+  body.shake, body.shake-hard, .reel.reach, .gcard, .fx-flash.go, .fx-bigtext.go { animation: none !important; }
+  #fx-layer { display: none; }
+}
