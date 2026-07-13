@@ -1,4 +1,4 @@
-/* 0rnot // core.js — shared wallet, audio, win FX, ranking */
+/* 0rnot // core.js — shared wallet, audio, win FX, game carousel */
 (() => {
   "use strict";
 
@@ -194,49 +194,37 @@
     }
   }
 
-  /* ================= RANKING (rigged, like everything else) ============ */
-  function rankRows() {
-    const debtYen = st.debt * 10000;
-    const rows = [
-      { n: "胴元", v: 1000000 + st.lost * 1000, note: "あなたの負け分で今日も肉を食う" },
-      { n: "上級国民の孫", v: 999999, note: "生まれた時点でクリア済み" },
-      { n: "税務署", v: 777777 + debtYen, note: "あなたの負債にも課税を検討中" },
-      { n: "親ガチャSSRの同級生", v: 85000, note: "努力の話だけしてくる" },
-      { n: "推し", v: 7777, note: "あなたの残高の主な使途" },
-      { n: "上司(無能)", v: 3000, note: "評価するのは、なぜか彼" },
-      { n: "平均的な正社員", v: 800, note: "統計上の存在。実在しない" },
-      { n: "昨日のあなた", v: st.credit + 20, note: "まだ知らない頃の顔" },
-      { n: "あなた", v: st.credit, note: st.debt > 0 ? "負債 ¥" + debtYen.toLocaleString() + " を添えて" : "現在地", me: true },
-      { n: "フリーランス(自称)", v: 12, note: "経費で生きている" },
-      { n: "夢を追う人", v: 3, note: "夢は資産計上できません" },
-      { n: "10年後のあなた", v: -50, note: "このままいくと" },
-    ];
-    return rows.sort((a, b) => b.v - a.v);
+  /* ================= GAME CAROUSEL (arrow navigation) ================ */
+  const GAMES = [
+    { id: "slot",  name: "SISYPHUS-77",  sub: "資本主義体験装置" },
+    { id: "gacha", name: "REROLL-∞",     sub: "人生ガチャ" },
+    { id: "audit", name: "AUDIT-13",     sub: "人生査定" },
+    { id: "pachi", name: "DIGNITY-0",    sub: "尊厳交換機" },
+    { id: "hx",    name: "RAT-RACE X",   sub: "人生周回装置" },
+  ];
+  let gi = 0;
+  const gTitle = $("#g-title"), gIdx = $("#g-idx"), gSub = $("#g-sub");
+  function showGame(i) {
+    gi = (i + GAMES.length) % GAMES.length;
+    const g = GAMES[gi];
+    document.querySelectorAll(".game").forEach(el =>
+      el.classList.toggle("active", el.id === "g-" + g.id));
+    if (gTitle) gTitle.textContent = g.name;
+    if (gSub) gSub.textContent = g.sub;
+    if (gIdx) gIdx.textContent = (gi + 1) + "/" + GAMES.length;
+    document.dispatchEvent(new CustomEvent("gamechange", { detail: g.id }));
   }
-  function renderRank() {
-    const tb = $("#rank-body");
-    if (!tb) return;
-    tb.innerHTML = "";
-    rankRows().forEach((r, i) => {
-      const tr = document.createElement("tr");
-      if (r.me) tr.className = "me";
-      tr.innerHTML = "<td>" + (i + 1) + "</td><td>" + r.n + "</td><td>" +
-        r.v.toLocaleString() + "</td><td>" + r.note + "</td>";
-      tb.appendChild(tr);
-    });
-  }
-  document.addEventListener("walletchange", renderRank);
+  const bPrev = $("#g-prev"), bNext = $("#g-next");
+  if (bPrev) bPrev.addEventListener("click", () => { showGame(gi - 1); beep(400, .05, .03); });
+  if (bNext) bNext.addEventListener("click", () => { showGame(gi + 1); beep(500, .05, .03); });
+  document.addEventListener("keydown", (e) => {
+    if (!document.querySelector("#panel-game.active")) return;
+    if (e.target && /INPUT|TEXTAREA|BUTTON/.test(e.target.tagName) && e.target.tagName !== "BUTTON") return;
+    if (e.code === "ArrowLeft")  { e.preventDefault(); showGame(gi - 1); beep(400, .05, .03); }
+    if (e.code === "ArrowRight") { e.preventDefault(); showGame(gi + 1); beep(500, .05, .03); }
+  });
+  if (gTitle) showGame(0);
 
-  /* ================= GAME SUB-TABS ================ */
-  const gtabs = Array.from(document.querySelectorAll(".gtab"));
-  const games = Array.from(document.querySelectorAll(".game"));
-  gtabs.forEach(t => t.addEventListener("click", () => {
-    gtabs.forEach(x => x.setAttribute("aria-selected", String(x === t)));
-    games.forEach(g => g.classList.toggle("active", g.id === "g-" + t.dataset.game));
-    if (t.dataset.game === "rank") renderRank();
-    document.dispatchEvent(new CustomEvent("gamechange", { detail: t.dataset.game }));
-  }));
-
-  window.Casino = { W: Wallet, beep, sfx, fx: { win, burst, shake, flash: doFlash, bigText, countUp }, renderRank };
-  render(); renderRank();
+  window.Casino = { W: Wallet, beep, sfx, fx: { win, burst, shake, flash: doFlash, bigText, countUp } };
+  render();
 })();

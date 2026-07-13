@@ -144,12 +144,14 @@
       </div>
       <p class="wallet-fine">※ 信用・徒労・負債は全機種で共有されます。どこで失っても同じ財布です。現実と同じ。</p>
 
-      <nav class="gtabs" role="tablist" aria-label="games">
-        <button class="gtab" role="tab" data-game="slot" aria-selected="true">SLOT</button>
-        <button class="gtab" role="tab" data-game="gacha" aria-selected="false">GACHA</button>
-        <button class="gtab" role="tab" data-game="audit" aria-selected="false">AUDIT</button>
-        <button class="gtab" role="tab" data-game="pachi" aria-selected="false">PACHI</button>
-        <button class="gtab" role="tab" data-game="rank" aria-selected="false">RANK</button>
+      <nav class="gnav" aria-label="game selector">
+        <button class="garrow" id="g-prev" type="button" aria-label="前のゲーム">◀</button>
+        <div class="gname">
+          <span class="gtitle" id="g-title">SISYPHUS-77</span>
+          <span class="gsub" id="g-sub">資本主義体験装置</span>
+          <span class="gidx" id="g-idx">1/5</span>
+        </div>
+        <button class="garrow" id="g-next" type="button" aria-label="次のゲーム">▶</button>
       </nav>
 
       <!-- ===== SLOT ===== -->
@@ -204,21 +206,12 @@
         <div class="slot-actions">
           <button class="btn-spin" id="btn-gacha1" type="button">1回 // 3消費</button>
           <button class="btn-spin alt" id="btn-gacha10" type="button">10連 // 25消費</button>
+          <button class="btn-spin alt" id="btn-rates" type="button">確率</button>
         </div>
-
-        <details class="paytable">
-          <summary>排出率 // RATES（天井なし・床もなし）</summary>
-          <table>
-            <tr><td>UR 0.5%</td><td>上級国民の孫</td><td>+100</td></tr>
-            <tr><td>SSR 3.5%</td><td>実家が太い / 顔がいい</td><td>+35〜40</td></tr>
-            <tr><td>SR 14%</td><td>コネ内定 / 宝くじ3等</td><td>+10〜12</td></tr>
-            <tr><td>R 35%</td><td>健康・同僚（期間限定）</td><td>+1〜2</td></tr>
-            <tr><td>N 47%</td><td>現状維持〜上司ガチャ失敗</td><td>0〜-5</td></tr>
-          </table>
-        </details>
 
         <p class="slot-fine">
           ※ 10連には「R以上1枚保証」が付きます。統計的には何も変わりませんが、安心はします。<br>
+          ※ 排出率は「確率」ボタンから全件確認できます。読まずに引く自由も保障されています。<br>
           ※ 親ガチャの再抽選は承っておりません。窓口もありません。
         </p>
       </div>
@@ -282,19 +275,43 @@
         </p>
       </div>
 
-      <!-- ===== RANKING ===== -->
-      <div class="game slot" id="g-rank">
-        <h2 class="slot-title">Hierarchy</h2>
-        <p class="slot-sub">社会的信用ランキング — 集計方法は非公開。現実のランキングも大体そうです。</p>
 
-        <table class="rank-table">
-          <thead><tr><th>#</th><th>名義</th><th>信用</th><th>備考</th></tr></thead>
-          <tbody id="rank-body"></tbody>
-        </table>
+      <!-- ===== HAKUSURA ===== -->
+      <div class="game slot" id="g-hx">
+        <h2 class="slot-title">Rat&#8209;Race&nbsp;X</h2>
+        <p class="slot-sub">人生周回装置 — 社会的信用で殴るハック&スラッシュ。装備で数字を盛るのも実力のうち。</p>
+
+        <div class="hx-status">
+          <div class="hx-powbox">
+            <span class="k">総合力</span>
+            <span class="hx-pow" id="hx-power">0</span>
+          </div>
+          <div class="hx-powbox">
+            <span class="k">現在地</span>
+            <span class="hx-posv" id="hx-pos">F1</span>
+          </div>
+        </div>
+
+        <div class="hx-gear" id="hx-gear"></div>
+
+        <p class="sect">fields // どこを周るかは自由です</p>
+        <div class="hx-fields" id="hx-fields"></div>
+
+        <div class="hx-log" id="hx-log" aria-live="polite"></div>
+
+        <div class="hx-event" id="hx-event">
+          <p class="hx-ev-q" id="hx-ev-q"></p>
+          <div class="slot-actions">
+            <button class="btn-spin alt" id="btn-ev-a" type="button">A</button>
+            <button class="btn-spin alt" id="btn-ev-b" type="button">B</button>
+          </div>
+        </div>
 
         <p class="slot-fine">
-          ※ 本ランキングは操作されています。異議がある場合は、より多く負けてください。<br>
-          ※ 「あなた」の順位は全機種の戦績と連動します。上を見ても仕方ない顔ぶれですが。
+          ※ 要求信用を満たせば突破、足りなければ一つ前のフィールドへ強制送還。敗者は語らず、ただ戻ります。<br>
+          ※ 装備は「装備(本体)×称号(付加価値)」の組み合わせ。約100×100通り。あなたの検索履歴より多様です。<br>
+          ※ 装備で盛った信用も社会では有効です。むしろ盛った数字のほうが強い。<br>
+          ※ ドロップした装備が現在より強ければ自動装備、弱ければ問答無用で換金されます。断捨離です。
         </p>
       </div>
     </section>
@@ -306,6 +323,21 @@
     <span class="sys" id="sys-line">BOOT OK</span>
   </footer>
 
+  <div class="gacha-center" id="gacha-center" aria-hidden="true">
+    <div class="gacha-center-card back"><span class="gq">?</span></div>
+  </div>
+
+  <div class="modal" id="rates-modal" aria-hidden="true">
+    <div class="modal-box">
+      <div class="modal-head">
+        <span>排出率 // FULL DISCLOSURE</span>
+        <button class="modal-close" type="button" aria-label="閉じる">×</button>
+      </div>
+      <div class="modal-body"></div>
+      <p class="slot-fine">※ 全件公開しています。読んだ上で引くなら、それはもう共犯です。</p>
+    </div>
+  </div>
+
   <div class="toast" id="toast" role="status"></div>
 
   <script src="js/main.js"></script>
@@ -314,5 +346,6 @@
   <script src="js/gacha.js"></script>
   <script src="js/audit.js"></script>
   <script src="js/pachi.js"></script>
+  <script src="js/hx.js"></script>
 </body>
 </html>

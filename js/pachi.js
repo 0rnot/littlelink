@@ -53,7 +53,7 @@
   let balls = [], raf = null, dpr = 1;
 
   function resize() {
-    const w = Math.min(canvas.parentElement.clientWidth, 380);
+    const w = Math.min(canvas.parentElement.clientWidth || 320, 380) || 320;
     dpr = devicePixelRatio || 1;
     canvas.style.width = w + "px";
     canvas.style.height = (w * LH / LW) + "px";
@@ -61,7 +61,10 @@
     canvas.height = LH * dpr;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   }
-  addEventListener("resize", resize);
+  addEventListener("resize", () => { resize(); drawBoard(); });
+  document.addEventListener("gamechange", (e) => {
+    if (e.detail === "pachi") { resize(); drawBoard(); }
+  });
   resize();
 
   function drawBoard() {
