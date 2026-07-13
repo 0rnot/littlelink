@@ -19,8 +19,8 @@
   <meta property="og:image" content="https://0rnot.com/images/avatar.png">
   <meta property="og:url" content="https://0rnot.com">
 
-  <link rel="stylesheet" href="css/reset.css?v=10">
-  <link rel="stylesheet" href="css/cyber.css?v=10">
+  <link rel="stylesheet" href="css/reset.css?v=11">
+  <link rel="stylesheet" href="css/cyber.css?v=11">
 </head>
 
 <body>
@@ -39,6 +39,7 @@
     <nav class="tabs" role="tablist" aria-label="sections">
       <button class="tab" role="tab" data-panel="links" aria-selected="true" aria-controls="panel-links">Links</button>
       <button class="tab" role="tab" data-panel="game" aria-selected="false" aria-controls="panel-game">Game</button>
+      <button class="tab" role="tab" data-panel="watch" aria-selected="false" aria-controls="panel-watch">Watch</button>
     </nav>
     <div class="hud-meta">
       <span id="hud-hex">0x0000</span>
@@ -278,6 +279,47 @@
 
     </section>
 
+    <!-- ============ WATCH ============ -->
+    <section class="panel" id="panel-watch" role="tabpanel" aria-label="surveillance">
+      <p class="sect">surveillance // you agreed to nothing</p>
+
+      <div class="slot watch-file" id="watch-file">
+        <h2 class="slot-title">Subject&nbsp;File</h2>
+        <p class="slot-sub">調査対象: あなた — 以下は、開いた瞬間にあなたのブラウザが無償で差し出した情報です。</p>
+        <div class="w-stamp" aria-hidden="true">機密 // 誰も読まない</div>
+
+        <p class="w-head">身元情報 // IDENTITY</p>
+        <div class="w-sect" id="ws-id"></div>
+
+        <p class="w-head">端末情報 // HARDWARE</p>
+        <div class="w-sect" id="ws-hw"></div>
+
+        <p class="w-head">環境情報 // ENVIRONMENT</p>
+        <div class="w-sect" id="ws-env"></div>
+
+        <p class="w-head">行動記録 // BEHAVIOR <span class="w-live">● LIVE</span></p>
+        <div class="w-sect" id="ws-be"></div>
+
+        <p class="w-head">資産状況 // ASSETS（GAMEタブ連動）</p>
+        <div class="w-sect" id="ws-as"></div>
+
+        <div class="w-geo">
+          <button class="btn-spin alt" id="btn-geo" type="button">現在地を開示する（任意）</button>
+          <p class="slot-msg" id="geo-result">押さない自由もあります。今日それを行使できる数少ない場面です。</p>
+        </div>
+
+        <div class="slot-actions">
+          <button class="btn-spin" id="btn-wipe" type="button">このファイルを削除する</button>
+        </div>
+
+        <p class="slot-fine">
+          ※ IPと所在地のみ、あなたのブラウザが外部API（ipapi.co）に自分から問い合わせています。行きなさいと言ったのは当サイトですが。<br>
+          ※ その他は全てブラウザ内で完結し、どこにも送信・保存されません。保存する価値がないので。<br>
+          ※ 普段見ているサイトは、これと同じものを黙って集めて売っています。当サイトは見せて煽るだけです。健全ですね。
+        </p>
+      </div>
+    </section>
+
   </main>
 
   <footer>
@@ -302,11 +344,12 @@
 
   <div class="toast" id="toast" role="status"></div>
 
-  <script src="js/main.js?v=10"></script>
-  <script src="js/core.js?v=10"></script>
-  <script src="js/slot.js?v=10"></script>
-  <script src="js/gacha.js?v=10"></script>
-  <script src="js/audit.js?v=10"></script>
-  <script src="js/pachi.js?v=10"></script>
+  <script src="js/main.js?v=11"></script>
+  <script src="js/core.js?v=11"></script>
+  <script src="js/slot.js?v=11"></script>
+  <script src="js/gacha.js?v=11"></script>
+  <script src="js/audit.js?v=11"></script>
+  <script src="js/pachi.js?v=11"></script>
+  <script src="js/watch.js?v=11"></script>
 </body>
 </html>
