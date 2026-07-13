@@ -99,7 +99,7 @@
     fetch("https://ipapi.co/json/").then(r => r.json()).then(j => {
       ipEl.textContent = j.ip || REDACT;
       geoEl.textContent = (j.country_name || "?") + " " + (j.region || "") + " " + (j.city || "");
-      geoEl.textContent += "（駅までは特定できませんでした。今回は。）";
+      geoEl.textContent += "（駅までは特定できませんでした。）";
       ispEl.textContent = j.org || REDACT;
     }).catch(() => {
       fetch("https://api.ipify.org?format=json").then(r => r.json())
@@ -143,7 +143,7 @@
       : REDACT + "（非対応ブラウザ）");
     row(sEnv, "接続状態", navigator.onLine ? "オンライン（常時接続、依存の第一歩）" : "オフライン");
     row(sEnv, "Cookie", navigator.cookieEnabled ? "許可（皆そうです）" : "拒否（意志を感じる）");
-    row(sEnv, "追跡拒否信号", navigator.doNotTrack === "1" ? "送信中（尊重するかは相手の気分次第です）" : "未送信（諦めですか？）");
+    row(sEnv, "追跡拒否信号", navigator.doNotTrack === "1" ? "送信中（尊重するかは相手の気分次第です）" : "未送信");
     row(sEnv, "配色設定", matchMedia("(prefers-color-scheme: dark)").matches ? "ダークモード（同志）" : "ライトモード（眩しくないですか）");
     row(sEnv, "アニメ削減設定", matchMedia("(prefers-reduced-motion: reduce)").matches ? "有効" : "無効");
     row(sEnv, "タブ履歴の深さ", history.length + "ページ（このタブの行動履歴です）");
@@ -163,7 +163,7 @@
       const s = Math.floor((performance.now() - t0) / 1000);
       tEl.textContent = (s >= 60 ? Math.floor(s / 60) + "分" : "") + (s % 60) + "秒" +
         (s > 300 ? "（そろそろ生産的なことを）" : "");
-      dEl.textContent = (B.dist / 3780).toFixed(2) + "m（指の運動、お疲れ様です）";
+      dEl.textContent = (B.dist / 3780).toFixed(2) + "m";
       cEl.textContent = B.clicks + "回";
       kEl.textContent = B.keys + "回";
       scEl.textContent = B.scroll + "%";
@@ -330,7 +330,7 @@
           const { latitude, longitude, accuracy } = pos.coords;
           g.innerHTML = "緯度 <b>" + latitude.toFixed(5) + "</b> / 経度 <b>" + longitude.toFixed(5) +
             "</b> / 誤差±" + Math.round(accuracy) + "m<br>あなたの現在地まで、あと" +
-            Math.round(accuracy) + "m。<b>ワンタップでここまで渡るんです、この情報。</b>";
+            Math.round(accuracy) + "m。";
         },
         (err) => {
           g.innerHTML = err.code === 1
