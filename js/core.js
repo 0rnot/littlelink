@@ -207,8 +207,11 @@
   function showGame(i) {
     gi = (i + GAMES.length) % GAMES.length;
     const g = GAMES[gi];
-    document.querySelectorAll(".game").forEach(el =>
-      el.classList.toggle("active", el.id === "g-" + g.id));
+    document.querySelectorAll(".game").forEach(el => {
+      const on = el.id === "g-" + g.id;
+      el.classList.toggle("active", on);
+      el.style.display = on ? "block" : "none";  /* belt & suspenders vs stale CSS */
+    });
     if (gTitle) gTitle.textContent = g.name;
     if (gSub) gSub.textContent = g.sub;
     if (gIdx) gIdx.textContent = (gi + 1) + "/" + GAMES.length;

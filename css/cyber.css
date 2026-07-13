@@ -392,7 +392,8 @@ footer .sys { text-align: right; }
   flex: 1; min-height: 54px;
   background: var(--white); color: #000;
   border: 1px solid var(--white);
-  font: inherit; font-weight: 700; font-size: .95rem; letter-spacing: .3em;
+  font: inherit; font-weight: 700; font-size: .82rem; letter-spacing: .12em;
+  line-height: 1.35; padding: .3rem .4rem; word-break: keep-all;
   cursor: pointer;
   clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
   transition: filter .1s;

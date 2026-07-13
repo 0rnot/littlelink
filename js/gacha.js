@@ -94,7 +94,7 @@
     if (W.broke()) {
       b1.textContent = "借金する +20"; b1.classList.add("debt"); b10.disabled = true;
     } else {
-      b1.textContent = "1回 // 3消費"; b1.classList.remove("debt"); b10.disabled = false;
+      b1.textContent = "単発 3"; b1.classList.remove("debt"); b10.disabled = false;
     }
   }
   document.addEventListener("walletchange", renderBtns);
