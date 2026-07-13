@@ -1,251 +1,192 @@
 <!DOCTYPE html>
+<html lang="ja" translate="no">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>0rnot</title>
 
-<html class="theme-auto" lang="ja" translate="no"> <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="/images/avatar.png">
+  <meta name="description" content="High Tech, Low Life">
+  <meta name="keywords" content="0rnot, profile, links">
+  <meta name="author" content="0rnot">
+  <meta name="google" content="notranslate">
+  <meta name="theme-color" content="#050505">
+  <meta name="color-scheme" content="dark">
+  <link rel="canonical" href="https://0rnot.com">
 
-    <title>0rnot</title>
-    <link rel="icon" type="image/x-icon" href="/images/avatar.png"> <meta name="description" content="High Tech,Low Life">
+  <meta property="og:title" content="0rnot">
+  <meta property="og:description" content="High Tech, Low Life">
+  <meta property="og:image" content="https://0rnot.com/images/avatar.png">
+  <meta property="og:url" content="https://0rnot.com">
 
-    <meta name="keywords" content="0rnot, profile, links">
-    
-    <meta name="google" content="notranslate">
-
-    <meta rel="canonical" href="https://0rnot.com">
-
-    <meta name="author" content="0rnot">
-
-    <link rel="stylesheet" href="css/reset.css">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/brands.css">
-<style>
-
-      html {
-        cursor: crosshair;
-      }
-      a {
-        cursor: pointer;
-      }
-
-
-      body {
-        background-image: 
-          linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px) !important;
-        background-size: 30px 30px !important;
-      }
-
-
-      h1 {
-        font-family: 'Courier New', Consolas, monospace !important;
-        letter-spacing: 3px !important;
-        text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-      }
-
-
-      .avatar {
-        animation: glitch 4s step-end infinite;
-        position: relative;
-      }
-      @keyframes glitch {
-        0% { transform: translate(0, 0); }
-        1% { transform: translate(-3px, 3px); filter: hue-rotate(90deg) saturate(3); }
-        2% { transform: translate(3px, -3px); filter: hue-rotate(-90deg) saturate(3); }
-        3% { transform: translate(0, 0); filter: hue-rotate(0deg) saturate(1); }
-      }
-
-
-      .column > p {
-        color: rgba(255, 255, 255, 0.8) !important;
-        font-family: 'Courier New', Consolas, monospace !important;
-        overflow: hidden; 
-        border-right: .15em solid rgba(255, 255, 255, .75);
-        white-space: nowrap; /* 改行しない */
-        margin: 0 auto !important;
-        margin-bottom: var(--spacing-xl) !important;
-        display: block;
-        width: 0; /* 最初は幅0 */
-        animation: 
-          typing 2s steps(19, end) forwards, /* 19文字分アニメーション */
-          blink-caret .75s step-end infinite;
-      }
-      @keyframes typing { from { width: 0 } to { width: 19ch } } /* chユニットは文字数 */
-      @keyframes blink-caret { from, to { border-color: transparent } 50% { border-color: white; } }
-
-      /* --- ボタン基本設定 --- */
-      .button, .button img {
-        transition: all 0.2s ease !important;
-      }
-
-      /* --- 枠線消し --- */
-      .button-github, .button-x, .button-obsidian, .button-keybase, .button-btc {
-        border: none !important;
-      }
-
-      /* --- Keybase & BTC --- */
-      .button-keybase {
-        background-color: #33A0FF !important; /* Keybaseのブルー */
-        color: #FFFFFF !important;
-      }
-      .button-btc {
-        background-color: #F7931A !important; /* Bitcoinのオレンジ */
-        color: #FFFFFF !important;
-      }
-
-      /* --- ネオンエフェクト --- */
-      .button:hover {
-        transform: translateY(-3px) scale(1.02); /* 少し浮いて大きくなる */
-        box-shadow: 0 0 20px rgba(255, 255, 255, 0.6) !important;
-      }
-      
-      /* GitHub/X/Obsidianのホバー（白黒反転） */
-      :root.theme-dark .button-github:hover,
-      :root.theme-dark .button-x:hover,
-      :root.theme-dark .button-obsidian:hover {
-        background-color: #ffffff !important;
-        color: #000000 !important;
-        box-shadow: 0 0 25px #ffffff !important;
-      }
-      :root.theme-dark .button-github:hover img,
-      :root.theme-dark .button-x:hover img,
-      :root.theme-dark .button-obsidian:hover img {
-        filter: invert(1) !important;
-      }
-    </style>
-    </head>
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/cyber.css">
+</head>
 
 <body>
+  <!-- CRT layers -->
+  <canvas id="fx-rain" aria-hidden="true"></canvas>
+  <div class="fx-scanlines" aria-hidden="true"></div>
+  <div class="fx-vignette" aria-hidden="true"></div>
+  <div class="fx-flicker" aria-hidden="true"></div>
+  <div class="frame" aria-hidden="true"></div>
 
-    <div class="container">
-        <div class="column">
-
-            <img class="avatar avatar--rounded" src="images/avatar.png" alt="0rnot">
-
-            <h1>
-              <div>0rnot</div>
-            </h1>
-
-            <p>High Tech,Low Life</p>
-
-            <div class="button-stack" role="navigation">
-
-
-              <a class="button button-discord" href="https://discordapp.com/users/1033218587676123146" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/discord.svg" alt="Discord Logo">Discord</a>
-
-              <a class="button button-github" href="https://github.com/0rnot" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/github.svg" alt="GitHub Logo">GitHub</a>
-
-              <a class="button button-reddit" href="https://www.reddit.com/user/NoZookeepergame7900/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/reddit.svg" alt="Reddit Logo">Reddit</a>
-
-              <a class="button button-spotify" href="https://open.spotify.com/user/qkwz3un86wbater7hwv8fkaqk?si=7e03be3e5749406b" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/spotify.svg" alt="Spotify Logo">Listen on Spotify</a>
-
-              <a class="button button-steam" href="https://steamcommunity.com/profiles/76561199118771161/" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/steam.svg" alt="Steam Logo">Steam</a>
-
-              <a class="button button-x" href="https://x.com/PE6K4C" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/x.svg" alt="X Logo">Follow on X</a>
-
-              <a class="button button-notion" href="https://shine-caraway-3e7.notion.site/33efcba2442f8068aadffbe5c6cb6a34?v=33efcba2442f81e5a541000c59946564" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/notion.svg" alt="Notion Logo">Notion</a>
-
-              <a class="button button-obsidian" href="https://obsidian.md/ja/" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="images/icons/obsidian.svg" alt="Obsidian Logo">Obsidian</a>
-
-              <a class="button button-keybase" href="https://keybase.io/0rnot" target="_blank" rel="noopener" role="button"><img class="icon" aria-hidden="true" src="https://cdn.simpleicons.org/keybase/white" alt="Keybase Logo">Keybase</a>
-
-              <a class="button button-btc" href="#" role="button" id="btc-button"><img class="icon" aria-hidden="true" src="https://cdn.simpleicons.org/bitcoin/white" alt="Bitcoin Logo">BTC address</a>
-              
-            </div>
-
-      <footer>
-        <p>© 2022 0rnot</p>
-      </footer>
-
+  <header class="hud">
+    <div class="hud-id">
+      <span class="hud-dot" aria-hidden="true"></span>
+      <b>0RNOT</b><span class="host">@0rnot.com</span>
     </div>
-  </div>
+    <nav class="tabs" role="tablist" aria-label="sections">
+      <button class="tab" role="tab" data-panel="links" aria-selected="true" aria-controls="panel-links">Links</button>
+      <button class="tab" role="tab" data-panel="game" aria-selected="false" aria-controls="panel-game">Game</button>
+    </nav>
+    <div class="hud-meta">
+      <span id="hud-hex">0x0000</span>
+      <span class="clock" id="hud-clock">----&#8209;--&#8209;-- --:--:-- JST</span>
+    </div>
+  </header>
 
-  <script>
-      document.addEventListener('DOMContentLoaded', () => {
-        const btcButton = document.getElementById('btc-button');
-        if (btcButton) {
-          btcButton.addEventListener('click', (e) => {
-            e.preventDefault(); // リンク動作（ページトップへ飛ぶ）を無効化
-            const idToCopy = "12uCSMbuUhiYAhBAgFre3iG6CEXkKVxwGF"; // コピーするBTCアドレス
+  <main>
+    <!-- ============ LINKS ============ -->
+    <section class="panel active" id="panel-links" role="tabpanel" aria-label="links">
+      <div class="identity">
+        <div class="avatar-wrap">
+          <img class="avatar" src="images/avatar.png" alt="0rnot" width="96" height="96">
+        </div>
+        <h1 class="name" data-text="0RNOT">0RNOT</h1>
+        <br>
+        <span class="tagline">High Tech, Low Life</span>
+      </div>
 
-            // Clipboard API (モダンブラウザ用)
-            if (navigator.clipboard && navigator.clipboard.writeText) {
-              navigator.clipboard.writeText(idToCopy).then(() => {
-                showCopiedMessage();
-              }).catch(err => {
-                fallbackCopy(idToCopy); // 失敗時は古い方法を試す
-              });
-            } else {
-              fallbackCopy(idToCopy); // API未対応ブラウザ
-            }
-          });
-        }
+      <p class="sect">uplink // channels</p>
 
-        // 古いブラウザ用のコピー方法（フォールバック）
-        function fallbackCopy(text) {
-          const textArea = document.createElement("textarea");
-          textArea.value = text;
-          textArea.style.position = "fixed"; // スクロール防止
-          document.body.appendChild(textArea);
-          textArea.focus();
-          textArea.select();
-          try {
-            document.execCommand('copy');
-            showCopiedMessage();
-          } catch (err) {
-            console.error('Copy failed', err);
-          }
-          document.body.removeChild(textArea);
-        }
+      <div class="stack" role="navigation">
 
-        // 画面中央下
-        function showCopiedMessage() {
-          const notification = document.createElement('div');
-          notification.textContent = 'BTC address copied !';
-          notification.style.cssText = `
-            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
-            background-color: rgba(247, 147, 26, 0.9); color: white; font-family: 'Courier New', monospace;
-            padding: 12px 24px; border-radius: 5px; z-index: 10000;
-            box-shadow: 0 0 15px rgba(247, 147, 26, 0.6); opacity: 0; transition: opacity 0.3s;
-          `;
-          document.body.appendChild(notification);
-          
-          // ふわっと出す
-          requestAnimationFrame(() => notification.style.opacity = '1');
+        <div class="row">
+          <a class="button" href="https://discord.com/users/1033218587676123146" target="_blank" rel="noopener" role="button">
+            <span class="idx">01</span>
+            <img class="icon" aria-hidden="true" src="images/icons/discord.svg" alt="">
+            <span class="label">Discord</span>
+            <span class="arrow">-&gt;</span>
+          </a>
+          <button class="chip" type="button"
+                  data-copy="1033218587676123146"
+                  data-copy-msg="DISCORD ID COPIED"
+                  title="開けない場合: IDをコピーして「フレンド追加」から検索">ID⧉</button>
+        </div>
 
-          // 2秒後に消す
-          setTimeout(() => {
-            notification.style.opacity = '0';
-            setTimeout(() => document.body.removeChild(notification), 300);
-          }, 2000);
-        }
-      });
+        <a class="button" href="https://github.com/0rnot" target="_blank" rel="noopener" role="button">
+          <span class="idx">02</span>
+          <img class="icon" aria-hidden="true" src="images/icons/github.svg" alt="">
+          <span class="label">GitHub</span>
+          <span class="arrow">-&gt;</span>
+        </a>
 
-      console.log(`
-  ⡏⠉⠉⠉⠉⠉⠉⠋⠉⠉⠉⠉⠉⠉⠋⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠙⠉⠉⠉⠹ 
-  ⡇⢸⣿⡟⠛⢿⣷⠀⢸⣿⡟⠛⢿⣷⡄⢸⣿⡇⠀⢸⣿⡇⢸⣿⡇⠀⢸⣿⡇⠀ 
-  ⡇⢸⣿⣧⣤⣾⠿⠀⢸⣿⣇⣀⣸⡿⠃⢸⣿⡇⠀⢸⣿⡇⢸⣿⣇⣀⣸⣿⡇⠀ 
-  ⡇⢸⣿⡏⠉⢹⣿⡆⢸⣿⡟⠛⢻⣷⡄⢸⣿⡇⠀⢸⣿⡇⢸⣿⡏⠉⢹⣿⡇⠀ 
-  ⡇⢸⣿⣧⣤⣼⡿⠃⢸⣿⡇⠀⢸⣿⡇⠸⣿⣧⣤⣼⡿⠁⢸⣿⡇⠀⢸⣿⡇⠀ 
-  ⣇⣀⣀⣀⣀⣀⣀⣄⣀⣀⣀⣀⣀⣀⣀⣠⣀⡈⠉⣁⣀⣄⣀⣀⣀⣠⣀⣀⣀⣰ 
-  ⣇⣿⠘⣿⣿⣿⡿⡿⣟⣟⢟⢟⢝⠵⡝⣿⡿⢂⣼⣿⣷⣌⠩⡫⡻⣝⠹⢿⣿⣷ 
-  ⡆⣿⣆⠱⣝⡵⣝⢅⠙⣿⢕⢕⢕⢕⢝⣥⢒⠅⣿⣿⣿⡿⣳⣌⠪⡪⣡⢑⢝⣇ 
-  ⡆⣿⣿⣦⠹⣳⣳⣕⢅⠈⢗⢕⢕⢕⢕⢕⢈⢆⠟⠋⠉⠁⠉⠉⠁⠈⠼⢐⢕⢽ 
-  ⡗⢰⣶⣶⣦⣝⢝⢕⢕⠅⡆⢕⢕⢕⢕⢕⣴⠏⣠⡶⠛⡉⡉⡛⢶⣦⡀⠐⣕⢕ 
-  ⡝⡄⢻⢟⣿⣿⣷⣕⣕⣅⣿⣔⣕⣵⣵⣿⣿⢠⣿⢠⣮⡈⣌⠨⠅⠹⣷⡀⢱⢕ 
-  ⡝⡵⠟⠈⢀⣀⣀⡀⠉⢿⣿⣿⣿⣿⣿⣿⣿⣼⣿⢈⡋⠴⢿⡟⣡⡇⣿⡇⡀⢕ 
-  ⡝⠁⣠⣾⠟⡉⡉⡉⠻⣦⣻⣿⣿⣿⣿⣿⣿⣿⣿⣧⠸⣿⣦⣥⣿⡇⡿⣰⢗⢄ 
-  ⠁⢰⣿⡏⣴⣌⠈⣌⠡⠈⢻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣬⣉⣉⣁⣄⢖⢕⢕⢕ 
-  ⡀⢻⣿⡇⢙⠁⠴⢿⡟⣡⡆⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣵⣵⣿ 
-  ⡻⣄⣻⣿⣌⠘⢿⣷⣥⣿⠇⣿⣿⣿⣿⣿⣿⠛⠻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿ 
-  ⣷⢄⠻⣿⣟⠿⠦⠍⠉⣡⣾⣿⣿⣿⣿⣿⣿⢸⣿⣦⠙⣿⣿⣿⣿⣿⣿⣿⣿⠟ 
-  ⡕⡑⣑⣈⣻⢗⢟⢞⢝⣻⣿⣿⣿⣿⣿⣿⣿⠸⣿⠿⠃⣿⣿⣿⣿⣿⣿⡿⠁⣠ 
-  ⡝⡵⡈⢟⢕⢕⢕⢕⣵⣿⣿⣿⣿⣿⣿⣿⣿⣿⣶⣶⣿⣿⣿⣿⣿⠿⠋⣀⣈⠙ 
-  ⡝⡵⡕⡀⠑⠳⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⠛⢉⡠⡲⡫⡪⡪⡣
-      `);
-      
+        <a class="button" href="https://open.spotify.com/user/qkwz3un86wbater7hwv8fkaqk?si=7e03be3e5749406b" target="_blank" rel="noopener" role="button">
+          <span class="idx">03</span>
+          <img class="icon" aria-hidden="true" src="images/icons/spotify.svg" alt="">
+          <span class="label">Spotify</span>
+          <span class="arrow">-&gt;</span>
+        </a>
 
-      console.log("%cSYSTEM SECURED. WHAT ARE YOU LOOKING AT?", "color: #FF0032; font-size: 14px; font-weight: bold; font-family: 'Courier New', monospace;");
+        <a class="button" href="https://steamcommunity.com/profiles/76561199118771161/" target="_blank" rel="noopener" role="button">
+          <span class="idx">04</span>
+          <img class="icon" aria-hidden="true" src="images/icons/steam.svg" alt="">
+          <span class="label">Steam</span>
+          <span class="arrow">-&gt;</span>
+        </a>
 
-    </script>
-  </body>
+        <a class="button" href="https://x.com/PE6K4C" target="_blank" rel="noopener" role="button">
+          <span class="idx">05</span>
+          <img class="icon" aria-hidden="true" src="images/icons/x.svg" alt="">
+          <span class="label">X</span>
+          <span class="arrow">-&gt;</span>
+        </a>
+
+        <a class="button" href="https://shine-caraway-3e7.notion.site/33efcba2442f8068aadffbe5c6cb6a34?v=33efcba2442f81e5a541000c59946564" target="_blank" rel="noopener" role="button">
+          <span class="idx">06</span>
+          <img class="icon" aria-hidden="true" src="images/icons/notion.svg" alt="">
+          <span class="label">Notion</span>
+          <span class="arrow">-&gt;</span>
+        </a>
+
+        <a class="button" href="https://keybase.io/0rnot" target="_blank" rel="noopener" role="button">
+          <span class="idx">07</span>
+          <img class="icon" aria-hidden="true" src="https://cdn.simpleicons.org/keybase/white" alt="">
+          <span class="label">Keybase</span>
+          <span class="arrow">-&gt;</span>
+        </a>
+
+        <a class="button" href="#" role="button"
+           data-copy="12uCSMbuUhiYAhBAgFre3iG6CEXkKVxwGF"
+           data-copy-msg="BTC ADDRESS COPIED">
+          <span class="idx">08</span>
+          <img class="icon" aria-hidden="true" src="https://cdn.simpleicons.org/bitcoin/white" alt="">
+          <span class="label">BTC address</span>
+          <span class="arrow">⧉</span>
+        </a>
+
+      </div>
+    </section>
+
+    <!-- ============ GAME ============ -->
+    <section class="panel" id="panel-game" role="tabpanel" aria-label="game">
+      <p class="sect">amusement // rigged by design</p>
+
+      <div class="slot">
+        <h2 class="slot-title">Sisyphus&#8209;77</h2>
+        <p class="slot-sub">資本主義体験装置 — 夢と税金のスロットマシン。胴元は常に勝ちます。</p>
+
+        <div class="slot-meters">
+          <div class="meter"><span class="k">社会的信用</span><span class="v" id="m-credit">20</span></div>
+          <div class="meter"><span class="k">労働回数</span><span class="v" id="m-spins">0</span></div>
+          <div class="meter"><span class="k">累計負債</span><span class="v" id="m-debt">—</span></div>
+        </div>
+
+        <div class="reels" aria-label="スロットリール">
+          <div class="reel"><div class="strip"></div></div>
+          <div class="reel"><div class="strip"></div></div>
+          <div class="reel"><div class="strip"></div></div>
+        </div>
+
+        <p class="slot-msg" id="slot-msg" aria-live="polite">
+          ようこそ。信用20からスタートです。現実より多いですね。
+        </p>
+
+        <div class="slot-actions">
+          <button class="btn-spin" id="btn-spin" type="button">SPIN // 1消費</button>
+          <button class="btn-mute" id="btn-mute" type="button" aria-label="サウンド切替">SND</button>
+        </div>
+
+        <details class="paytable">
+          <summary>配当表 // PAYTABLE（小さい字は読まれない前提で書いています）</summary>
+          <table>
+            <tr><td>7 7 7</td><td>人生唯一の成功体験</td><td>+77</td></tr>
+            <tr><td>円 円 円</td><td>各種控除前</td><td>+30</td></tr>
+            <tr><td>労 労 労</td><td>やりがい込み</td><td>+5</td></tr>
+            <tr><td>夢 夢 夢</td><td>換金不可</td><td>±0</td></tr>
+            <tr><td>骨 骨 骨</td><td>労災認定は下りません</td><td>-5</td></tr>
+            <tr><td>税 税 税</td><td>おめでとうございます</td><td>-10</td></tr>
+          </table>
+        </details>
+
+        <p class="slot-fine">
+          ※ 本機に換金機能はありません。射幸心のみを煽ります。<br>
+          ※ 確率は公開していますが、読まないのはあなたの自由です。現実の規約と同じです。<br>
+          ※ 「借金」機能で信用は回復しますが、あなたの何かが失われます。
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <span>© 2022–2026 0rnot</span>
+    <span class="sys" id="sys-line">BOOT OK</span>
+  </footer>
+
+  <div class="toast" id="toast" role="status"></div>
+
+  <script src="js/main.js"></script>
+  <script src="js/slot.js"></script>
+</body>
 </html>
