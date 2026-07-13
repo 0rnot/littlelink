@@ -184,6 +184,154 @@
     assets();
     document.addEventListener("walletchange", assets);
 
+    /* --- その他情報（深層スキャン: 要ユーザー操作） --- */
+    const deepBtn = $("#btn-deep");
+    let deepDone = false;
+    deepBtn.addEventListener("click", async () => {
+      if (deepDone) return;
+      deepDone = true;
+      deepBtn.disabled = true;
+      deepBtn.textContent = "スキャン中…";
+      const host = $("#ws-deep");
+      const head = $("#deep-head");
+      head.style.display = "block";
+      host.style.display = "grid";
+      window.Casino && window.Casino.sfx && window.Casino.sfx.flip();
+
+      const add = (k, v, cls) => row(host, k, v, cls);
+
+      /* 端末モデル・詳細UA (Client Hints 高エントロピー) */
+      if (navigator.userAgentData && navigator.userAgentData.getHighEntropyValues) {
+        try {
+          const h = await navigator.userAgentData.getHighEntropyValues([
+            "model", "platform", "platformVersion", "architecture", "bitness",
+            "uaFullVersion", "fullVersionList", "wow64"]);
+          add("端末モデル名", h.model ? esc(h.model) + "（実機名、出ましたね）" : "（PCは機種名を返しません。スマホなら丸見えです）");
+          add("プラットフォーム", esc(h.platform || "?") + " " + esc(h.platformVersion || ""));
+          add("CPUアーキテクチャ", esc(h.architecture || "?") + " / " + esc(h.bitness || "?") + "bit");
+          add("詳細バージョン", esc((h.fullVersionList || []).map(v => v.brand + " " + v.version).join(" / ") || h.uaFullVersion || "?"));
+        } catch (e) { add("端末モデル名", REDACT + "（拒否されました）"); }
+      } else {
+        add("端末モデル名", REDACT + "（このブラウザは秘匿型。少しだけ良心的です）");
+      }
+
+      /* ローカルIP (WebRTC) */
+      const lipEl = add("内部IPアドレス", "探索中…", "live");
+      try {
+        const pc = new RTCPeerConnection({ iceServers: [] });
+        const found = new Set();
+        pc.createDataChannel("x");
+        pc.onicecandidate = (e) => {
+          if (!e.candidate) {
+            lipEl.classList.remove("live");
+            lipEl.innerHTML = found.size
+              ? [...found].join(", ") + "（LAN内での住所です。ルーターの中まで見えました）"
+              : REDACT + "（mDNSで隠蔽済み。近年の数少ない良ニュース）";
+            pc.close();
+            return;
+          }
+          const m = e.candidate.candidate.match(/(\d{1,3}(?:\.\d{1,3}){3})|([a-f0-9]{4}(?::[a-f0-9]{0,4}){2,})/i);
+          if (m) found.add(m[0]);
+        };
+        await pc.setLocalDescription(await pc.createOffer());
+        setTimeout(() => { if (lipEl.classList.contains("live")) {
+          lipEl.classList.remove("live");
+          lipEl.innerHTML = found.size ? [...found].join(", ") : REDACT + "（取得できず。運が良い）";
+          try { pc.close(); } catch (e) {}
+        } }, 2500);
+      } catch (e) { lipEl.classList.remove("live"); lipEl.textContent = REDACT; }
+
+      /* 接続機器（カメラ/マイク/スピーカーの台数） */
+      if (navigator.mediaDevices && navigator.mediaDevices.enumerateDevices) {
+        try {
+          const ds = await navigator.mediaDevices.enumerateDevices();
+          const cnt = (k) => ds.filter(d => d.kind === k).length;
+          add("接続カメラ", cnt("videoinput") + "台" + (cnt("videoinput") ? "（今は、見ていません）" : ""));
+          add("接続マイク", cnt("audioinput") + "台");
+          add("接続スピーカー", cnt("audiooutput") + "台");
+        } catch (e) { add("接続機器", REDACT); }
+      }
+
+      /* 権限ステータス */
+      if (navigator.permissions && navigator.permissions.query) {
+        const names = [["geolocation","位置情報"],["notifications","通知"],["camera","カメラ"],
+                       ["microphone","マイク"],["clipboard-read","クリップボード"]];
+        const states = { granted: "許可済み", denied: "拒否", prompt: "未設定" };
+        for (const [n, ja] of names) {
+          try { const p = await navigator.permissions.query({ name: n });
+            add("権限:" + ja, states[p.state] || p.state); } catch (e) {}
+        }
+      }
+
+      /* 音声指紋 (AudioContext) */
+      try {
+        const AC = window.OfflineAudioContext || window.webkitOfflineAudioContext;
+        if (AC) {
+          const ctx = new AC(1, 44100, 44100);
+          const osc = ctx.createOscillator(); osc.type = "triangle"; osc.frequency.value = 10000;
+          const comp = ctx.createDynamicsCompressor();
+          osc.connect(comp); comp.connect(ctx.destination); osc.start(0);
+          const buf = await ctx.startRendering();
+          let sum = 0; const d = buf.getChannelData(0);
+          for (let i = 4000; i < 5000; i++) sum += Math.abs(d[i]);
+          add("音声指紋", "0x" + Math.floor(sum * 1e7).toString(16).toUpperCase() + "（音の出し方にも個性が出ます）");
+        }
+      } catch (e) {}
+
+      /* インストール済みフォント検出 */
+      try {
+        const test = ["Meiryo","Yu Gothic","MS PGothic","Hiragino Kaku Gothic Pro","Osaka",
+          "Segoe UI","Calibri","Consolas","Menlo","Monaco","Times New Roman","Georgia",
+          "Comic Sans MS","Impact","Courier New","Arial Black","Tahoma","Verdana"];
+        const base = ["monospace","serif","sans-serif"];
+        const span = document.createElement("span");
+        span.style.cssText = "position:absolute;left:-9999px;font-size:72px";
+        span.textContent = "mmmmmmmmmlli 日本語Wg";
+        document.body.appendChild(span);
+        const def = {};
+        for (const b of base) { span.style.fontFamily = b; def[b] = [span.offsetWidth, span.offsetHeight]; }
+        const found = test.filter(f => base.some(b => {
+          span.style.fontFamily = "'" + f + "'," + b;
+          return span.offsetWidth !== def[b][0] || span.offsetHeight !== def[b][1];
+        }));
+        document.body.removeChild(span);
+        add("検出フォント", found.length + "種: " + esc(found.join(", ")) + "（入れたソフトが透けます）");
+      } catch (e) {}
+
+      /* 画面詳細 */
+      add("色深度", screen.colorDepth + "bit / " + (screen.pixelDepth || screen.colorDepth) + "bit");
+      add("画面の向き", (screen.orientation && screen.orientation.type) || "?");
+      add("作業領域", (screen.availWidth || "?") + "×" + (screen.availHeight || "?") + "（タスクバーの高さまで分かります）");
+
+      /* ゲームパッド */
+      try {
+        const gp = (navigator.getGamepads ? navigator.getGamepads() : []).filter(Boolean);
+        if (gp.length) add("接続コントローラ", esc(gp.map(g => g.id).join(", ")));
+      } catch (e) {}
+
+      /* クリップボード（最凶） */
+      const clipEl = add("クリップボードの中身", "読み取り試行中…", "live");
+      try {
+        if (navigator.clipboard && navigator.clipboard.readText) {
+          const txt = await navigator.clipboard.readText();
+          clipEl.classList.remove("live");
+          if (txt && txt.trim()) {
+            const shown = esc(txt.slice(0, 60)) + (txt.length > 60 ? "…" : "");
+            clipEl.innerHTML = "<b>「" + shown + "」</b><br>今コピーしていた物です。パスワードでなかったことを祈ります。";
+            window.Casino && window.Casino.fx && window.Casino.fx.shake(false);
+          } else {
+            clipEl.textContent = "（空、またはテキスト以外。今回は助かりましたね）";
+          }
+        } else { clipEl.classList.remove("live"); clipEl.textContent = REDACT + "（非対応）"; }
+      } catch (e) {
+        clipEl.classList.remove("live");
+        clipEl.textContent = "拒否されました。この判断力を、他の場面でも。";
+      }
+
+      deepBtn.textContent = "スキャン完了 // これでも氷山の一角です";
+      if (window.showToast) showToast("深層スキャン完了。まだ黙って取れる情報も残っています。");
+    });
+
     /* --- 位置情報開示 --- */
     $("#btn-geo").addEventListener("click", () => {
       const g = $("#geo-result");
